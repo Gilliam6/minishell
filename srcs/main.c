@@ -6,13 +6,19 @@ int main(int argc, char **argv, char **env)
 //	int i;
 	(void)argc;
 	(void)argv;
+	char *str;
+	int exit = 0;
 
 	envi = init_environment(env);
 //	i = 0;
-	while(envi)
+
+	while(!exit)
 	{
-		printf("%s\n", envi->content);
-		envi = envi->next;
+		readline(str);
+		add_history(str);
+
+//		readline("➡️");
+//		printf("%s\n", str);
 	}
 	return (0);
 }

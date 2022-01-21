@@ -2,8 +2,6 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
@@ -12,6 +10,8 @@
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct env_list
 {
