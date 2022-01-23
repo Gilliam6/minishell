@@ -1,4 +1,4 @@
-SRCS_LIST = init_environment.c main.c
+SRCS_LIST = init_environment.c main.c garbage_collector.c tokenizator.c parser.c
 
 SRCS_DIR = srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
@@ -42,7 +42,8 @@ SOURCE = libft/ft_atoi.c \
          		 libft/ft_strtrim.c \
          		 libft/ft_substr.c \
          		 libft/ft_tolower.c \
-         		 libft/ft_toupper.c
+         		 libft/ft_toupper.c \
+         		 libft/ft_strcmp.c
 
 HEADER = includes/minishell.h
 HEADER_LIB = includes/libft.h
@@ -63,7 +64,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
-		@gcc $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
+		@gcc -g -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
 		@echo "\n$(NAME):$(GREEN).o files were created$(RESET)"
 		@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 

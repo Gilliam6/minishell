@@ -31,7 +31,8 @@ SOURCE	=	ft_atoi.c \
 			ft_strtrim.c \
 			ft_substr.c \
 			ft_tolower.c \
-			ft_toupper.c
+			ft_toupper.c \
+			ft_strcmp.c
 
 BONUS	=	ft_lstadd_back.c \
 			ft_lstadd_front.c \
@@ -47,7 +48,7 @@ GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 
-HEADER	=	libft.h
+HEADER	=	../includes/libft.h
 
 BONUS_O	=	${BONUS:.c=.o}
 
@@ -59,26 +60,26 @@ NAME	=	libft.a
 
 AR		=	ar rc
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-g -Wall -Wextra -Werror
 
-%.o: %.c ${HEADER}
-			@gcc ${CFLAGS} -c $< -o ${<:.c=.o}
+%.o: %.c 	$(HEADER)
+			@gcc $(CFLAGS) -c $< -o ${<:.c=.o}
 			@echo "$(GREEN)/$(RESET)\c"
 
-$(NAME):	${OBJECTS}
-			@${AR} ${NAME} ${OBJECTS}
+$(NAME):	$(OBJECTS)
+			@$(AR) $(NAME) $(OBJECTS)
 
-all:		${NAME}
+all:		$(NAME)
 
 clean:
-			@${RM} ${OBJECTS} ${BONUS_O}
+			@$(RM) $(OBJECTS) $(BONUS_O)
 
 fclean:		clean
-			@${RM} ${NAME}
+			@$(RM) $(NAME)
 
 re:			fclean all
 
-bonus:		${BONUS_O}
-			@${AR} ${NAME} ${BONUS_O}
+bonus:		$(BONUS_O)
+			@$(AR) $(NAME) $(BONUS_O)
 
 .PHONY:		all clean fclean bonus

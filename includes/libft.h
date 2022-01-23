@@ -4,6 +4,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+int 	ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t count, size_t size);
 void	ft_putchar_fd(char c, int fd);

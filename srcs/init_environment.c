@@ -31,11 +31,11 @@ void 	lst_add_back(t_env **env_chain, t_env *new)
 		*env_chain = new;
 }
 
-t_env	*new_node(char *content)
+t_env	*new_node(char *content, t_garbage **garbage)
 {
 	t_env *new;
 
-	new = (t_env *)malloc(sizeof(t_env));
+	new = (t_env *) save_malloc(sizeof(t_env), garbage);
 	if (!new)
 		return (0);
 	new->content = content;
@@ -43,19 +43,19 @@ t_env	*new_node(char *content)
 	return (new);
 }
 
-t_env	*init_environment(char **env)
+t_env	*init_environment(char **env, t_garbage **garbage)
 {
 	t_env	*envi;
 	t_env	*new;
 	int		i;
 
-	envi = new_node(env[0]);
+	envi = new_node(env[0], garbage);
 	if (!envi)
 		return (0);
 	i = 1;
 	while (env[i])
 	{
-		new = new_node(env[i]);
+		new = new_node(env[i], garbage);
 		if (!new)
 		{
 			node_clear(&envi, free);

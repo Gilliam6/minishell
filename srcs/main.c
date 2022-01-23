@@ -1,24 +1,33 @@
 #include "../includes/minishell.h"
 
+int ft_strerror(char *str)
+{
+	ft_putstr_fd(str, 1);
+	return (1);
+}
+
 int main(int argc, char **argv, char **env)
 {
-	t_env *envi;
-//	int i;
+	t_mini shell;
+
 	(void)argc;
 	(void)argv;
-	char *str;
-	int exit = 0;
-
-	envi = init_environment(env);
-//	i = 0;
-
-	while(!exit)
+	shell.exit = 0;
+	shell.envi = init_environment(env, &shell.garbage);
+	if (!shell.envi)
+		return (ft_strerror(MLC_ERR));
+//	printf("%d garbage size\n", ft_custom_lstsize(shell
+//	.garbage));
+	while(!shell.exit)
 	{
-		readline(str);
-		add_history(str);
-
+		shell.input_line = readline("🍌");
+		tokenizator(&shell);
+//		printf("%s\n", shell.input_line);
 //		readline("➡️");
-//		printf("%s\n", str);
+		shell.exit = ft_strcmp(shell.input_line, "exit");
+		add_history(shell.input_line);
 	}
+	ft_custom_lstclear(&shell.garbage, free);
+	printf("%s\n", "🖕");
 	return (0);
 }
