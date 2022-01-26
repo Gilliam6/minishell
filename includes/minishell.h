@@ -15,6 +15,7 @@
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
+# define QUOT_ERR	"Minishell syntax error: open quotes\n"
 
 //CMD
 # define EXIT			1
@@ -30,6 +31,8 @@
 # define RD_OUTPUT		9
 # define RD_INPUT_X2	10
 # define RD_OUTPUT_X2	11
+
+# define MAX_INT		2147483647
 
 typedef struct	pointers
 {
@@ -61,8 +64,9 @@ typedef struct s_minishell
 }			t_mini;
 
 // Main
-t_env	*init_environment(char **env, t_garbage **garbage);
-int ft_strerror(char *str);
+t_env		*init_environment(char **env, t_garbage **garbage);
+int 		ft_strerror(char *str, int ret);
+int			unexpected_exit(t_garbage **garbage, char *str, int ret);
 
 
 // Malloc abstract || garbage collector
@@ -73,8 +77,10 @@ t_garbage	*ft_custom_lstnew(void *content);
 void		*save_malloc(int num_bytes, t_garbage **garbage);
 
 // Parser
-void	tokenizator(t_mini *shell);
-char 	**parser(t_mini *shell);
+void		tokenizator(t_mini *shell);
+char 		**parser(t_mini *shell);
+int 		quotes(char *line, int i); // Quotes checker
+int 		quot_checker(char *line, int i);
 
 
 

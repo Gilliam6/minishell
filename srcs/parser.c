@@ -88,9 +88,13 @@ char	**ft_custom_split(char const *s, char c, t_garbage **garbage)
 char **parser(t_mini *shell)
 {
 	char **splitted;
-	int i;
 
-	splitted = ft_custom_split(shell->input_line, ' ', &shell->garbage);
-	i = 0;
+	splitted = 0;
+	if (quot_checker(shell->input_line, MAX_INT))
+		return;
+//	splitted = ft_custom_split(shell->input_line, ' ', &shell->garbage);
+
+
+
 	return (splitted);
 }

@@ -1,9 +1,17 @@
 #include "../includes/minishell.h"
 
-int ft_strerror(char *str)
+int unexpected_exit(t_garbage **garbage, char *str, int ret)
+{
+	if (*garbage)
+		ft_custom_lstclear(garbage, free);
+	if (str)
+		ft_putstr_fd(str, 1);
+	exit(ret);
+}
+int ft_strerror(char *str, int ret)
 {
 	ft_putstr_fd(str, 1);
-	return (1);
+	return (ret);
 }
 
 int main(int argc, char **argv, char **env)
