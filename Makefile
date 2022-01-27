@@ -1,4 +1,5 @@
-SRCS_LIST = init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c
+SRCS_LIST = init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
+space_checker.c
 
 SRCS_DIR = srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))

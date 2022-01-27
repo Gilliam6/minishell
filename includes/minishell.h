@@ -26,11 +26,10 @@
 # define ENV			6
 
 //OP(operators)
-# define PIPE			7
-# define RD_INPUT		8
-# define RD_OUTPUT		9
-# define RD_INPUT_X2	10
-# define RD_OUTPUT_X2	11
+# define PIPE			1
+# define RD_INPUT		2
+# define RD_OUTPUT		3
+# define RD_OUTPUT_X2	4
 
 # define MAX_INT		2147483647
 
@@ -81,6 +80,8 @@ void		tokenizator(t_mini *shell);
 char 		**parser(t_mini *shell);
 int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
+char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
+char	*space_del(char *str);
 
 
 

@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **env)
 	shell.exit = 0;
 	shell.envi = init_environment(env, &shell.garbage);
 	if (!shell.envi)
-		return (ft_strerror(MLC_ERR));
+		return (ft_strerror(MLC_ERR, 1));
 //	printf("%d garbage size\n", ft_custom_lstsize(shell
 //	.garbage));
 	while(!shell.exit)
