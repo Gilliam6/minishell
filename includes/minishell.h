@@ -56,6 +56,7 @@ typedef struct tokens_list
 typedef struct s_minishell
 {
 	char			*input_line;
+	char 			*processed_line;
 	unsigned char	exit;
 	t_env			*envi;
 	t_tok			*tokens;
@@ -77,11 +78,11 @@ void		*save_malloc(int num_bytes, t_garbage **garbage);
 
 // Parser
 void		tokenizator(t_mini *shell);
-char 		**parser(t_mini *shell);
+void		parser(t_mini *shell);
 int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
-char	*space_del(char *str);
+void		space_del(t_mini *shell);
 
 
 

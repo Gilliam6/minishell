@@ -20,38 +20,35 @@ int calculate_strmem(char *str)
 	return (mem_size);
 }
 
-char *refactor_str(char *str, int mem_size)
+char *refactor_str(t_mini *shell, int mem_size)
 {
 	char	*final;
 	int		index;
 
-	final = (char *)malloc(sizeof(char) * mem_size + 1);
-	if (!final)
-		return (0);
+	final = (char *)save_malloc(sizeof(char) * mem_size + 1, &shell->garbage);
 	index = 0;
 	mem_size = 0;
-	while (str && str[index])
+	while (shell->input_line && shell->input_line[index])
 	{
-		if (str[index] != ' ')
-			final[mem_size++] = str[index];
-		if (str[index] == ' ' && str[index + 1] == '-')
-			final[mem_size++] = str[index];
-		if (str[index] == ' ' && quotes(str, index))
-			final[mem_size++] = str[index];
+		if (shell->input_line[index] != ' ')
+			final[mem_size++] = shell->input_line[index];
+		if (shell->input_line[index] == ' ' && shell->input_line[index + 1]
+		== '-')
+			final[mem_size++] = shell->input_line[index];
+		if (shell->input_line[index] == ' ' && quotes(shell->input_line, index))
+			final[mem_size++] = shell->input_line[index];
 		index++;
 	}
 	final[index] = 0;
 	return (final);
 }
 
-char 	*space_del(char *str)
+void	space_del(t_mini *shell)
 {
 	int	mem_size;
-	char *un_spaced;
+//	char *un_spaced;
 
-	mem_size = calculate_strmem(str);
-	un_spaced = refactor_str(str, mem_size);
-	if (!un_spaced)
-		return (0);
-	return (un_spaced);
+	mem_size = calculate_strmem(shell->input_line);
+	shell->processed_line = refactor_str(shell, mem_size);
+
 }

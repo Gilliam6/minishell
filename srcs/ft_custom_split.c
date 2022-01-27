@@ -66,18 +66,11 @@ char	**ft_custom_split(char const *s, char c, t_garbage **garbage)
 
 	delen = ft_pieces(s, c);
 	spliter = (char **)save_malloc(sizeof(char *) * (delen + 1), garbage);
-	if (!spliter)
-		return (0);
 	i = 0;
 	while (i < delen)
 	{
 		str_len = ft_cache(s, c);
 		spliter[i] = (char *)save_malloc(sizeof(char) * (str_len + 1), garbage);
-		if (!(spliter[i]))
-		{
-			ft_custom_lstclear(garbage, free);
-			exit (ft_strerror(MLC_ERR, 1));
-		}
 		spliter = ft_filler(&s, spliter, c, i);
 		i++;
 	}

@@ -1,20 +1,15 @@
 #include "../includes/minishell.h"
 
-char **parser(t_mini *shell)
+void	parser(t_mini *shell)
 {
-	char **splitted;
-	char *str;
+//	char *str;
 
-	splitted = 0;
+//	splitted = 0;
 	if (quot_checker(shell->input_line, MAX_INT))
-		return (0);
-	str = space_del(shell->input_line);
-	if (!str)
-		return (0);
+		return ;
+	space_del(shell);
+	printf("%s\n", shell->processed_line);
 
 	//	splitted = ft_custom_split(shell->input_line, ' ', &shell->garbage);
 
-
-
-	return (splitted);
 }

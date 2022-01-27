@@ -58,9 +58,8 @@ void	*save_malloc(int num_bytes, t_garbage **garbage)
 	pointer = malloc(num_bytes);
 	if (!pointer)
 	{
-		write(1, "oh no\n", 6);
-		ft_custom_lstclear(garbage, free);
-		return (0);
+		ft_putstr_fd(MLC_ERR, 1);
+		exit(1);
 	}
 	ft_custom_lstadd_front(garbage, ft_custom_lstnew(pointer));
 	return (pointer);
