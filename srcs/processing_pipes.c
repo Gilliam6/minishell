@@ -5,12 +5,8 @@ int	count_token_mem(char *str)
 	int	i;
 
 	i = 0;
-//	if (*str == '|')
-//		str++;
 	while (str && str[i] && str[i] != '|')
-	{
 		i++;
-	}
 	return (i);
 }
 
@@ -20,8 +16,6 @@ char *create_token_str(char *str, int mem_size, t_garbage **garbage)
 
 	final = (char *)save_malloc(mem_size + 1, garbage);
 	final[mem_size] = 0;
-//	if (*str == '|')
-//		str++;
 	while (mem_size--)
 		final[mem_size] = str[mem_size];
 	return (final);
@@ -56,5 +50,5 @@ void	processing_pipes(t_mini *shell)
 			break;
 		index += mem_size + 1;
 	}
-	print_tokens(shell->tokens);
+//	print_tokens(shell->tokens);
 }

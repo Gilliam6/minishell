@@ -52,6 +52,13 @@ typedef struct tokens_list
 	struct tokens_list	*next;
 }			t_tok;
 
+typedef struct commands_line
+{
+	unsigned char			type;
+	char 					*text;
+	struct commands_line	*next;
+}				t_cmd;
+
 typedef struct s_minishell
 {
 	char			*input_line;
@@ -59,6 +66,7 @@ typedef struct s_minishell
 	unsigned char	exit;
 	t_env			*envi;
 	t_tok			*tokens;
+	t_cmd			*commands;
 	t_garbage		*garbage;
 }			t_mini;
 
@@ -82,12 +90,13 @@ int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
-void	processing_pipes(t_mini *shell);
+void		processing_pipes(t_mini *shell);
 
 
 // Tokens creator
-void	token_add(t_tok **tokens, t_garbage **garbage, int index, char *str);
-int	tokens_size(t_tok *lst);
+void		token_add(t_tok **tokens, t_garbage **garbage, int index, char *str);
+int			tokens_size(t_tok *lst);
+void		print_tokens(t_tok *tokens);
 
 
 
