@@ -65,7 +65,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
-		@gcc -g -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
+		@gcc -g -fsanitize=address -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
 		@echo "\n$(NAME):$(GREEN).o files were created$(RESET)"
 		@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 

@@ -12,6 +12,7 @@ int	ft_custom_lstsize(t_garbage *lst)
 	}
 	return (i);
 }
+
 void	ft_custom_lstclear(t_garbage **lst, void (*del)(void*))
 {
 	t_garbage	*tmp;

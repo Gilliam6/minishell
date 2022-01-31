@@ -1,13 +1,13 @@
 #include "../includes/minishell.h"
 
-void	node_clear(t_env **lst, void (*del)(void*))
+void	node_clear(t_env **lst)
 {
 	t_env	*tmp;
 
 	while ((*lst))
 	{
 		tmp = (*lst)->next;
-		(*del)((*lst)->content);
+		free((*lst)->content);
 		free(*lst);
 		*lst = tmp;
 	}
@@ -35,7 +35,10 @@ t_env	*new_node(char *content, t_garbage **garbage)
 {
 	t_env *new;
 
-	new = (t_env *) save_malloc(sizeof(t_env), garbage);
+	new = (t_env *)save_malloc(sizeof(t_env), garbage);
+//	new->content = (char *)save_malloc(sizeof(char) * ft_strlen(content) + 1,
+//									   garbage);
+//	ft_memcpy(new->content, content, ft_strlen(content) + 1);
 	new->content = content;
 	new->next = 0;
 	return (new);

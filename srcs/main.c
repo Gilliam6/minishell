@@ -14,14 +14,16 @@ int ft_strerror(char *str, int ret)
 	return (ret);
 }
 
-int main(int argc, char **argv, char **env)
+int main(void)
 {
 	t_mini shell;
+	extern char **environ;
 
-	(void)argc;
-	(void)argv;
 	shell.exit = 0;
-	shell.envi = init_environment(env, &shell.garbage);
+	shell.garbage = 0;
+	shell.envi = 0;
+	shell.tokens = 0;
+	shell.envi = init_environment(environ, &shell.garbage);
 	if (!shell.envi)
 		return (ft_strerror(MLC_ERR, 1));
 //	printf("%d garbage size\n", ft_custom_lstsize(shell
@@ -31,7 +33,6 @@ int main(int argc, char **argv, char **env)
 		shell.input_line = readline("🍌");
 		if (ft_strcmp(shell.input_line, "exit"))
 			break;
-
 		tokenizator(&shell);
 //		printf("%s\n", shell.input_line);
 //		readline("➡️");
