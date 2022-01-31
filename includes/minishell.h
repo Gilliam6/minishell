@@ -48,9 +48,8 @@ typedef struct env_list
 typedef struct tokens_list
 {
 	char				*name;
-	unsigned char 		type;
+	unsigned char 		index;
 	struct tokens_list	*next;
-	struct tokens_list	*back;
 }			t_tok;
 
 typedef struct s_minishell
@@ -83,6 +82,12 @@ int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
+void	processing_pipes(t_mini *shell);
+
+
+// Tokens creator
+void	token_add(t_tok **tokens, t_garbage **garbage, int index, char *str);
+int	tokens_size(t_tok *lst);
 
 
 
