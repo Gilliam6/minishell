@@ -45,13 +45,6 @@ typedef struct env_list
 	struct env_list	*next;
 }				t_env;
 
-typedef struct tokens_list
-{
-	char				*name;
-	unsigned char 		index;
-	struct tokens_list	*next;
-}			t_tok;
-
 typedef struct commands_line
 {
 	unsigned char			type;
@@ -59,14 +52,22 @@ typedef struct commands_line
 	struct commands_line	*next;
 }				t_cmd;
 
+typedef struct tokens_list
+{
+	char				*name;
+	unsigned char 		index;
+	t_cmd 				cmd;
+	struct tokens_list	*next;
+}			t_tok;
+
 typedef struct s_minishell
 {
 	char			*input_line;
 	char 			*processed_line;
 	unsigned char	exit;
+	unsigned char 	stop;
 	t_env			*envi;
 	t_tok			*tokens;
-	t_cmd			*commands;
 	t_garbage		*garbage;
 }			t_mini;
 

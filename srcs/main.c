@@ -19,10 +19,7 @@ int main(void)
 	t_mini shell;
 	extern char **environ;
 
-	shell.exit = 0;
-	shell.garbage = 0;
-	shell.envi = 0;
-	shell.tokens = 0;
+	ft_memset(&shell, 0, sizeof(t_mini));
 	shell.envi = init_environment(environ, &shell.garbage);
 	if (!shell.envi)
 		return (ft_strerror(MLC_ERR, 1));

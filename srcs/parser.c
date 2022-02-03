@@ -6,8 +6,8 @@ void	parser(t_mini *shell)
 		return ;
 	space_del(shell);
 	processing_pipes(shell);
-	delete_quotes(shell); // to do раскрыть ковычки
-	processing_tokens(shell); // to do разбить на отдельные операторы и команды
+	processing_dollars(shell); // to do раскрыть доллар
+//	processing_tokens(shell); // to do разбить на отдельные операторы и команды
 //	print_tokens(shell->tokens);
 
 }

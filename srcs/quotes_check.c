@@ -2,28 +2,25 @@
 
 int quotes(char *line, int index)
 {
-	int	i;
+	int				i;
 	unsigned char	quot;
-	unsigned char	d_quot;
 
 	i = 0;
 	quot = 0;
-	d_quot = 0;
 	while (line[i] && i < index)
 	{
 		if (i > 0 && line[i - 1] == '\\')
 			;
-		else if (!d_quot && line[i] == '\"')
-			d_quot = !d_quot;
+		else if (!quot && line[i] == '\"')
+			quot = 2;
 		else if (!quot && line[i] == '\'')
-			quot = !quot;
-		else if (d_quot && line[i] == '\"')
-			d_quot = !d_quot;
-		else if (quot && line[i] == '\'')
-			quot = !quot;
+			quot = 1;
+		else if ((quot == 2 && line[i] == '\"') || (quot == 1 && line[i] ==
+		'\''))
+			quot = 0;
 		i++;
 	}
-	return (quot || d_quot);
+	return (quot);
 }
 
 int quot_checker(char *line, int i)
