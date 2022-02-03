@@ -91,7 +91,7 @@ int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
-void		processing_pipes(t_mini *shell);
+char		**processing_pipes(t_mini *shell);
 
 
 // Tokens creator

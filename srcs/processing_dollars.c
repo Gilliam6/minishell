@@ -1,15 +1,15 @@
 #include "../includes/minishell.h"
 
-int	localize_dollar(t_tok *tokens)
+int	localize_dollar(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (tokens->name[i] && tokens->name[i] != '$')
+	while (str[i] && str[i] != '$')
 		i++;
 	if (tokens->name[i] == '$')
 		return (i);
-	return (0);
+	return (-1);
 }
 
 char	*find_arg(t_tok *tokens, int index, t_garbage **garbage)
@@ -36,8 +36,10 @@ void	processing_dollars(t_mini *shell)
 	index = 1;
 	while (index)
 	{
-		index = localize_dollar(shell->tokens);
-		arg = find_arg(shell->tokens, index, &shell->garbage);
+		index = localize_dollar(shell->processed_line);
+		if (index >= 0)
+			shell->processed_line = prolongate_or_not(shell->processed_line, index,
+										  &shell->garbage);
 	}
 	if (!index)
 		return;
