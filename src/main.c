@@ -76,80 +76,6 @@ void	ft_env_parse(t_data *data)
 	}
 }
 
-void	ft_env_addback(t_env **env, t_env *new)
-{
-	t_env	*curr;
-
-	curr = *env;
-	if (curr == NULL)
-		*env = new;
-	else
-	{
-		while (curr->next)
-			curr = curr->next;
-		curr->next = new;
-	}
-}
-
-t_env	*ft_env_addnew(int var_name_len, int value_len)
-{
-	t_env	*new;
-
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
-		exit(1);
-	new->value = (char *)malloc((value_len + 1) * sizeof(char));
-	new->var_name = (char *)malloc((var_name_len + 1) * sizeof(char));
-	if (!new->value || !new->var_name)
-		exit(1);
-	new->next = NULL;
-	return (new);
-}
-
-char	*get_var_value(char *var_name, t_data *data)
-{
-	t_env	*env;
-
-	env = data->env_parsed;
-	while (env)
-	{
-		if (ft_strcmp(var_name, env->var_name) == 0)
-			break ;
-		env = env->next;
-	}
-	if (env)
-		return (env->value);
-	return (NULL);
-}
-
-void	parse_path(t_data *data)
-{
-	char	*path;
-	int		count;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	path = NULL;
-	if (data && data->env_parsed)
-	{
-		path = get_var_value("PATH", data);
-		if (path)
-		{
-			count = get_path_count(path);
-			data->path = (char **)malloc((count + 1) * sizeof(char *));
-			if (!data->path)
-				exit (1);
-			data->path[count] = NULL;
-			while (path[i] != '\0')
-			{
-				data->path[j++] = get_path(&path[i], &i);
-			}
-		}
-	}
-}
-
 void	ft_copy_params(t_data *data, int argc, char **argv, char **envp)
 {
 	data->argc = argc;
@@ -163,23 +89,32 @@ void	ft_copy_params(t_data *data, int argc, char **argv, char **envp)
 
 void	ft_init(t_data *data, int argc, char **argv, char **envp)
 {
+	char	*shlvl_val;
+
 	g_data.last_exit_code = 0;
 	g_data.main_proc_mark = 1;
 	ft_copy_params(data, argc, argv, envp);
 	ft_env_parse(data);
 	parse_path(data);
+	shlvl_val = get_env_by_name(data, "SHLVL");
+	set_env_by_name(data, get_env_name("SHLVL"),
+		ft_itoa(ft_atoi(shlvl_val) + 1), 1);
+	printf("%s\n", shlvl_val);
 	g_data.data = data;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char				*input;
-
 	t_data				data;
 
 	ft_init(&data, argc, argv, envp);
 	input = NULL;
-	printf("%s\n", data.path[0]);
+	// while (data.env_parsed->var_name)
+	// {
+	// 	printf("%s\n", data.env_parsed->var_name);
+	// 	data.env_parsed = data.env_parsed->next;
+	// }
 	printf("%s\n", data.path[1]);
 	printf("%s\n", data.path[2]);
 	printf("%s\n", data.path[3]);
