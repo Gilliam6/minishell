@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-char	*get_var_value(char *var_name, t_data *data)
+char	*get_environemt_value(char *name, t_data *data)
 {
-	t_env	*env;
+	t_enviroment	*enviroment;
 
-	env = data->env_parsed;
-	while (env)
+	enviroment = data->parsed_enviroment;
+	while (enviroment)
 	{
-		if (ft_strcmp(var_name, env->var_name) == 0)
+		if (ft_strcmp(name, enviroment->name) == 0)
 			break ;
-		env = env->next;
+		enviroment = enviroment->next;
 	}
-	if (env)
-		return (env->value);
+	if (enviroment)
+		return (enviroment->value);
 	return (NULL);
 }
 
@@ -26,9 +26,9 @@ void	parse_path(t_data *data)
 	i = 0;
 	j = 0;
 	path = NULL;
-	if (data && data->env_parsed)
+	if (data && data->parsed_enviroment)
 	{
-		path = get_var_value("PATH", data);
+		path = get_environemt_value("PATH", data);
 		if (path)
 		{
 			count = get_path_count(path);
@@ -42,28 +42,4 @@ void	parse_path(t_data *data)
 			}
 		}
 	}
-}
-
-char	*get_str_by_el(t_env *f)
-{
-	char	*res;
-	int		l;
-
-	if (f)
-	{
-		l = ft_strlen(f->value);
-		res = malloc(sizeof(char) * (l + 1));
-		if (!res)
-			exit_err(MEM_ERR);
-		res[l] = 0;
-		ft_memcpy(res, f->value, l);
-	}
-	else
-	{
-		res = malloc(sizeof(char));
-		if (!res)
-			exit_err(MEM_ERR);
-		res[0] = 0;
-	}
-	return (res);
 }

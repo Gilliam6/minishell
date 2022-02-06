@@ -1,30 +1,30 @@
 #include "minishell.h"
 
-char	*get_env_name(char *str)
+char	*get_enviroment_name(char *str)
 {
-	char	*res;
-	int		len;
+	char	*result;
+	int		length;
 
-	len = ft_strlen(str);
-	res = malloc(sizeof(char) * (len + 1));
-	if (!res)
+	length = ft_strlen(str);
+	result = malloc(sizeof(char) * (length + 1));
+	if (!result)
 		exit_err(MEM_ERR);
-	res[len] = 0;
-	ft_memcpy(res, str, len);
-	return (res);
+	result[length] = 0;
+	ft_memcpy(result, str, length);
+	return (result);
 }
 
-void	ft_env_addback(t_env **env, t_env *new)
+void	enviroment_addback(t_enviroment **env, t_enviroment *new)
 {
-	t_env	*curr;
+	t_enviroment	*current;
 
-	curr = *env;
-	if (curr == NULL)
+	current = *env;
+	if (current == NULL)
 		*env = new;
 	else
 	{
-		while (curr->next)
-			curr = curr->next;
-		curr->next = new;
+		while (current->next)
+			current = current->next;
+		current->next = new;
 	}
 }
