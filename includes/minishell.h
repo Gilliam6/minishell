@@ -45,18 +45,17 @@ typedef struct env_list
 	struct env_list	*next;
 }				t_env;
 
-typedef struct commands_line
-{
-	unsigned char			type;
-	char 					*text;
-	struct commands_line	*next;
-}				t_cmd;
+//typedef struct commands_line
+//{
+//	unsigned char			type;
+//	char 					*text;
+//	struct commands_line	*next;
+//}				t_cmd;
 
 typedef struct tokens_list
 {
-	char				*name;
-	unsigned char 		index;
-	t_cmd 				cmd;
+	char				**name;
+//	t_cmd 				cmd;
 	struct tokens_list	*next;
 }			t_tok;
 
@@ -86,7 +85,7 @@ void		*save_malloc(int num_bytes, t_garbage **garbage);
 
 // Parser
 void		tokenizator(t_mini *shell);
-void		parser(t_mini *shell);
+char		**parser(t_mini *shell);
 int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
@@ -95,7 +94,7 @@ char		**processing_pipes(t_mini *shell);
 
 
 // Tokens creator
-void		token_add(t_tok **tokens, t_garbage **garbage, int index, char *str);
+void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
 

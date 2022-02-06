@@ -44,7 +44,7 @@ void	token_add_back(t_tok **lst, t_tok *new)
 		*lst = new;
 }
 
-t_tok	*create_new_token(int index, char *str, t_garbage **garbage)
+t_tok	*create_new_token(char **str, t_garbage **garbage)
 {
 	t_tok	*elem;
 
@@ -52,16 +52,15 @@ t_tok	*create_new_token(int index, char *str, t_garbage **garbage)
 	if (!elem)
 		return (0);
 	elem->name = str;
-	elem->index = index;
 	elem->next = 0;
 	return (elem);
 }
 
-void	token_add(t_tok **tokens, t_garbage **garbage, int index, char *str)
+void	token_add(t_tok **tokens, t_garbage **garbage, char **str)
 {
 	t_tok	*new;
 
-	new = create_new_token(index, str, garbage);
+	new = create_new_token(str, garbage);
 	token_add_back(tokens, new);
 //	return (pointer);
 }

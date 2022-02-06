@@ -1,51 +1,42 @@
 #include "../includes/minishell.h"
 
-int check_cmd(char *line, int *index)
+void	print_tokens(t_tok *tokens)
 {
 	int i;
-	char *cmd[7];
 
-	cmd[0] = "exit";
-	cmd[1] = "pwd";
-	cmd[2] = "echo";
-	cmd[3] = "export";
-	cmd[4] = "unset";
-	cmd[5] = "env";
-	cmd[6] = 0;
-	i = 0;
-	while (cmd[i])
+	while (tokens)
 	{
-		if (ft_strncmp(line, cmd[i], ft_strlen(cmd[i])))
-		{
-			*index += ft_strlen(cmd[i]);
-			return (1);
-		}
+		i = 0;
+		while (tokens->name[i])
+			printf("%s\n", tokens->name[i++]);
+		printf("-------------------------\n");
+		tokens = tokens->next;
+	}
+}
+
+void	token_constructor(char **split, t_mini *shell)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	while (split[i])
+	{
+		tmp = ft_split(split[i], ' ');
+		token_add(&shell->tokens, &shell->garbage, tmp,
+				  type_recognizer);
 		i++;
 	}
-	return (0);
-}
-int	calculate_tokens(char *line)
-{
-	int index;
-	int num;
-
-	index = 0;
-	num = 0;
-	while (line && line[index])
-	{
-		if (check_cmd(line + index, &index))
-			num++;
-		else
-			index++;
-	}
-	return (num);
 }
 
 void	tokenizator(t_mini *shell)
 {
-//	int	token_num;
+	char **split;
 
-	parser(shell);
+	split = parser(shell);
+	if (split)
+		token_constructor(split, shell);
+//	print_tokens(shell->tokens);
 //	token_num = calculate_tokens(shell->processed_line);
 //	printf("%d\n", token_num);
 //	shell->tokens = token_split(shell);
