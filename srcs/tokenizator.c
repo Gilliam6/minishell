@@ -14,6 +14,7 @@ void	print_tokens(t_tok *tokens)
 	}
 }
 
+
 void	token_constructor(char **split, t_mini *shell)
 {
 	int		i;
@@ -22,9 +23,9 @@ void	token_constructor(char **split, t_mini *shell)
 	i = 0;
 	while (split[i])
 	{
+
 		tmp = ft_split(split[i], ' ');
-		token_add(&shell->tokens, &shell->garbage, tmp,
-				  type_recognizer);
+		token_add(&shell->tokens, &shell->garbage, tmp);
 		i++;
 	}
 }

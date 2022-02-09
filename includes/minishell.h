@@ -26,10 +26,10 @@
 # define ENV			6
 
 //OP(operators)
-# define PIPE			1
-# define RD_INPUT		2
-# define RD_OUTPUT		3
-# define RD_OUTPUT_X2	4
+# define PIPE			7
+# define RD_INPUT		8
+# define RD_OUTPUT		9
+# define RD_OUTPUT_X2	10
 
 # define MAX_INT		2147483647
 
@@ -91,6 +91,7 @@ int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
+void		processing_dollars(t_mini *shell);
 
 
 // Tokens creator
