@@ -57,8 +57,9 @@ int	calculate_new_line(char *str, int i, t_mini *shell)
 	t_env	*env;
 
 	len = 0;
-	while (str[i + len] && str[i + len] != ' ')
+	while (str[i + len] && (str[i + len] != ' ' && str[i + len] != '\"'))
 		len++;
+//	printf("")
 	env = compare_args(str + i, len, shell);
 	len = arg_size(env) - len;
 	return (len);
@@ -71,7 +72,8 @@ int	copy_arg(t_mini *shell, char *new_line, int i, int *ind)
 	t_env	*env;
 
 	len = 0;
-	while (shell->processed_line[i + len] && shell->processed_line[i + len] != ' ')
+	while (shell->processed_line[i + len] && (shell->processed_line[i + len]
+	!= ' ' && shell->processed_line[i + len] != '\"'))
 		len++;
 	index = len;
 	env = compare_args(shell->processed_line + i, len, shell);
@@ -93,7 +95,8 @@ char	*construct_new_line(int mem_size, t_mini *shell)
 	index = 0;
 	while (shell->processed_line[i])
 	{
-		if (shell->processed_line[i] == '$')
+		if (shell->processed_line[i] == '$' &&
+		quotes(shell->processed_line, i) != 1)
 			i += copy_arg(shell, new_line, i, &index);
 		else
 		{
@@ -116,13 +119,14 @@ void	processing_dollars(t_mini *shell)
 	mem_size = 0;
 	while (shell->processed_line && shell->processed_line[index])
 	{
-		if (shell->processed_line[index] == '$')
+		if (shell->processed_line[index] == '$' && quotes(shell->processed_line, index) != 1)
 			mem_size += calculate_new_line(shell->processed_line, index, shell);
 		index++;
 	}
+//	printf("MEMSIZE: %d\n", mem_size);
 	mem_size = ft_strlen(shell->processed_line) + mem_size + 1;
 	new_line = construct_new_line(mem_size, shell);
-	printf("CHECK NEW LINE: %s\nCHECK OLD LINE: %s\n", new_line,
-		   shell->processed_line);
+//	printf("CHECK NEW LINE: %s\nCHECK OLD LINE: %s\n", new_line,
+//		   shell->processed_line);
 	shell->processed_line = new_line;
 }
