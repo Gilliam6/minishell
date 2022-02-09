@@ -23,7 +23,6 @@ void	token_constructor(char **split, t_mini *shell)
 	i = 0;
 	while (split[i])
 	{
-
 		tmp = ft_split(split[i], ' ');
 		token_add(&shell->tokens, &shell->garbage, tmp);
 		i++;

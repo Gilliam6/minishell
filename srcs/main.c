@@ -27,10 +27,13 @@ int main(void)
 //	.garbage));
 	while(!shell.exit)
 	{
+		shell.tokens = 0;
 		shell.input_line = readline("🍌");
 		if (ft_strcmp(shell.input_line, "exit"))
 			break;
 		tokenizator(&shell);
+		print_tokens(shell.tokens);
+
 //		printf("%s\n", shell.input_line);
 //		readline("➡️");
 //		shell.exit = ft_strcmp(shell.input_line, "exit");

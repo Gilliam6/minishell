@@ -117,8 +117,7 @@ void	processing_dollars(t_mini *shell)
 	while (shell->processed_line && shell->processed_line[index])
 	{
 		if (shell->processed_line[index] == '$')
-			mem_size += calculate_new_line(shell->processed_line, index,
-										   shell);
+			mem_size += calculate_new_line(shell->processed_line, index, shell);
 		index++;
 	}
 	mem_size = ft_strlen(shell->processed_line) + mem_size + 1;
