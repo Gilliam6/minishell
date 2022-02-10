@@ -14,7 +14,7 @@ int ft_strerror(char *str, int ret)
 	return (ret);
 }
 
-int main(void)
+int main()
 {
 	t_mini shell;
 	extern char **environ;
@@ -23,6 +23,7 @@ int main(void)
 	shell.envi = init_environment(environ, &shell.garbage);
 	if (!shell.envi)
 		return (ft_strerror(MLC_ERR, 1));
+	recursion(&shell);
 //	printf("%d garbage size\n", ft_custom_lstsize(shell
 //	.garbage));
 	while(!shell.exit)

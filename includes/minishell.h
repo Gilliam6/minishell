@@ -12,6 +12,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <termios.h> //vanya
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
@@ -19,7 +20,7 @@
 
 //CMD
 # define EXIT			1
-# define ECHO			2
+// # define ECHO			2 //vanya
 # define PWD			3
 # define EXPORT			4
 # define UNSET			5
@@ -42,6 +43,9 @@ typedef struct	pointers
 typedef struct env_list
 {
 	char			*content;
+	char			*name; //vanya
+	char			*value;//vanya
+	char			flag;//vanya
 	struct env_list	*next;
 }				t_env;
 
@@ -66,6 +70,7 @@ typedef struct s_minishell
 	unsigned char	exit;
 	unsigned char 	stop;
 	t_env			*envi;
+	t_list			*env;//vanya
 	t_tok			*tokens;
 	t_garbage		*garbage;
 }			t_mini;
@@ -74,7 +79,6 @@ typedef struct s_minishell
 t_env		*init_environment(char **env, t_garbage **garbage);
 int 		ft_strerror(char *str, int ret);
 int			unexpected_exit(t_garbage **garbage, char *str, int ret);
-
 
 // Malloc abstract || garbage collector
 int			ft_custom_lstsize(t_garbage *lst); // check size of link
@@ -92,12 +96,24 @@ char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
-
+// Vanya
+void		recursion(t_mini *data);
+void		switch_echoctl(char on);
+void		exit_err(char *str);
+char		*get_environment_name(char *str);
+void		set_environment(t_mini *shell_data,
+				char *name_env, char *value_env, char flag);
+char		*get_environment_by_name(t_mini *shell_data, char *str);
+t_list		*list_element_finder(t_list *element, char *name_env);
+t_list		*ft_lsstlast(t_list *lst);
+void		ft_lsstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lsstnew(void *content);
 
 // Tokens creator
 void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
+
 
 
 
