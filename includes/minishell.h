@@ -66,6 +66,14 @@ typedef struct s_glob_data
 	int					hd;
 }	t_glob_data;
 
+typedef struct s_complex_return
+{
+	int					exit_code;
+	int					terminate;
+	int					ext_code;
+	char				*name;
+}	t_complex_return;
+
 extern t_glob_data			g_data;
 
 int				get_path_count(char *str);

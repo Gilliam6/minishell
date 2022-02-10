@@ -102,3 +102,4 @@ void	inition(t_data *data, int argc, char **argv, char **envp)
 	printf("%s\n", shell_lvl_value);
 	g_data.data = data;
 }
+fuserwyn

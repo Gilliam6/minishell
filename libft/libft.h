@@ -6,7 +6,7 @@
 /*   By: fuserwyn <fuserwyn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 19:12:36 by fuserwyn          #+#    #+#             */
-/*   Updated: 2022/01/29 21:48:50 by fuserwyn         ###   ########.fr       */
+/*   Updated: 2022/02/10 17:50:38 by fuserwyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 typedef struct s_list{
 	struct s_list		*next;
 	struct s_list		*prev;
-	void			*content;
+	void				*content;
 	char				*data;
 	int					type;
 	int					executed;

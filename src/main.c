@@ -3,10 +3,13 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char				*input;
+	// t_list				*tokens;
 	t_data				data;
+	// t_complex_return	ret;
 
 	inition(&data, argc, argv, envp);
 	input = NULL;
+	// var_init(&ret, &tokens);
 	// while (data.parsed_enviroment->name)
 	// {
 	// 	printf("%s\n", data.parsed_enviroment->name);
