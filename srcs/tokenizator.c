@@ -36,8 +36,6 @@ void	tokenizator(t_mini *shell)
 	split = parser(shell);
 	if (split)
 		token_constructor(split, shell);
-//	print_tokens(shell->tokens);
-//	token_num = calculate_tokens(shell->processed_line);
-//	printf("%d\n", token_num);
-//	shell->tokens = token_split(shell);
+	redirect_deleter(shell);
+//	type_recognizer(shell);
 }
