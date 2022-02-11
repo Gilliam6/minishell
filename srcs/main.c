@@ -27,19 +27,21 @@ int main(void)
 //	.garbage));
 	while(!shell.exit)
 	{
+		set_input_signals();
+		signal(SIGINT, &signal_handler2);
 		shell.tokens = 0;
-		shell.input_line = 0;
-		shell.input_line = readline("🍌");
+		//shell.input_line = 0;
+		shell.input_line = readline("minishell$");
 		// if (ft_strcmp(shell.input_line, "exit"))
 		// 	break;
 		if(!shell.input_line)
 		{
-			tokenizator(&shell);
-			print_tokens(shell.tokens);
+			ft_putstr_fd("exit\n", 1);
+			free(shell.input_line);
+			return(1);
 		}
-//		printf("%s\n", shell.input_line);
-//		readline("➡️");
-//		shell.exit = ft_strcmp(shell.input_line, "exit");
+		tokenizator(&shell);
+		print_tokens(shell.tokens);
 		add_history(shell.input_line);
 	}
 	ft_custom_lstclear(&shell.garbage, free);

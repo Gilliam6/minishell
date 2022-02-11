@@ -1,69 +1,34 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/23 10:39:23 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/23 14:36:19 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int	ft_char_valid(char s1, char const *set)
-{
-	int	counter;
-
-	counter = 0;
-	while (set[counter])
-	{
-		if (set[counter] == s1)
-			return (1);
-		counter++;
-	}
-	return (0);
-}
-
-static size_t	ft_memcounter(char const *s1, char const *set)
-{
-	size_t	counter;
-	size_t	index;
-	char	*p;
-
-	p = (char *)s1;
-	counter = 0;
-	while (((*p < 32 || *p > 126) || ft_char_valid(*p, set)) && *p)
-	{
-		if (ft_char_valid(*p, set))
-			counter++;
-		p++;
-	}
-	if (*p == 0)
-		return (0);
-	while (*p)
-		p++;
-	while ((*p < 32 || *p > 126) || ft_char_valid(*p, set))
-	{
-		if (ft_char_valid(*p, set))
-			counter++;
-		p--;
-	}
-	index = ft_strlen((char *)s1);
-	return (index - counter);
-}
+#include "libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		counter;
-	char	*mem;
-	int		index;
+	size_t	fi;
+	size_t	li;
 
 	if (!s1 || !set)
 		return (0);
-	index = 0;
-	counter = ft_memcounter(s1, set);
-	mem = (char *)malloc(counter + 1);
-	if (!mem)
-		return (0);
-	while (((*s1 < 32 || *s1 > 126) || ft_char_valid(*s1, set)) && *s1)
-		s1++;
-	while (counter)
+	fi = 0;
+	li = ft_strlen(s1);
+	while (ft_strchr(set, s1[fi]))
+		fi++;
+	if (li > 0 && s1[fi])
 	{
-		mem[index] = *s1;
-		index++;
-		s1++;
-		counter--;
+		li--;
+		while (ft_strchr(set, s1[li]))
+			li--;
+		return (ft_substr(s1, fi, li - fi + 1));
 	}
-	mem[index] = 0;
-	return (mem);
+	return (ft_substr(s1, fi, 0));
 }

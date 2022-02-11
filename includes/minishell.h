@@ -10,8 +10,8 @@
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
-# include "../readline/readline.h"
-# include "../readline/history.h"
+# include "readline.h"
+# include "history.h"
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"

@@ -1,48 +1,38 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/22 21:51:14 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/27 18:20:57 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static unsigned int	ft_check_memory(char const *s, unsigned int start,
-									 size_t len)
+#include "libft.h"
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned int	counter;
-
-	counter = 0;
-	if (ft_strlen((char *)s) < (int)start)
-		return (0);
-	while (s[start])
-	{
-		start++;
-		counter++;
-	}
-	if (counter < len || !counter)
-		return (counter);
-	else
-		return (len);
-}
-
-char	*ft_substr(char const *s, unsigned int start,
-				size_t len)
-{
-	char			*mem;
-	unsigned int	counter;
+	char	*res;
+	size_t	l;
 
 	if (!s)
 		return (0);
-	counter = ft_check_memory(s, start, len);
-	mem = (char *)malloc(counter + 1);
-	if (!mem)
+	l = ft_strlen(s);
+	if (start >= l)
+		len = 0;
+	else
+	{
+		l = l - start;
+		if (l < len)
+			len = l;
+	}
+	res = malloc(len + 1);
+	if (!res)
 		return (0);
-	if (!counter)
-	{
-		mem[0] = 0;
-		return (mem);
-	}
-	counter = 0;
-	while (len-- && s[start])
-	{
-		mem[counter] = s[start];
-		counter++;
-		start++;
-	}
-	mem[counter] = 0;
-	return (mem);
+	if (len > 0)
+		ft_memcpy(res, &s[start], len);
+	res[len] = 0;
+	return (res);
 }

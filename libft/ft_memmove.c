@@ -1,23 +1,29 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/20 15:33:42 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/30 09:03:31 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+#include "libft.h"
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	const unsigned char	*src_m;
-	unsigned char		*dst_m;
-	unsigned char		*last_dst;
-	const unsigned char	*last_src;
+	size_t	i;
 
-	dst_m = dst;
-	src_m = src;
-	last_dst = dst_m + len - 1;
-	last_src = src_m + len - 1;
-	if (dst_m == 0 && src_m == 0)
-		return (dst);
-	if (dst_m < src_m)
-		while (len--)
-			*dst_m++ = *src_m++;
+	if (!dest && !src)
+		return (0);
+	i = -1;
+	if (src < dest)
+		while (n-- > 0)
+			*(((char *)dest) + n) = *(((char *)src) + n);
 	else
-		while (len--)
-			*last_dst-- = *last_src--;
-	return (dst);
+		while (++i < n)
+			*(((char *)dest) + i) = *(((char *)src) + i);
+	return (dest);
 }

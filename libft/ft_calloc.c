@@ -1,18 +1,25 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/22 10:36:34 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/29 09:14:55 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	*ft_calloc(size_t count, size_t size)
+#include "libft.h"
+
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t	index;
-	void	*mass;
+	void	*res;
+	size_t	len;
 
-	index = 0;
-	mass = malloc(count * size);
-	if (!mass)
-		return (0);
-	while (index < count * size)
-	{
-		((char *)mass)[index] = 0;
-		index++;
-	}
-	return (mass);
+	len = nmemb * size;
+	res = malloc(len);
+	if (res)
+		ft_bzero(res, len);
+	return (res);
 }
