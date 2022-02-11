@@ -10,8 +10,8 @@
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "../readline/readline.h"
+# include "../readline/history.h"
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
@@ -100,7 +100,8 @@ void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
 
-
-
-
+void	set_input_signals(void);
+void	signal_handler(int signo);
+void	signal_handler2(int signo);
+//void rl_replace_line (const char *text, int clear_undo);
 #endif
