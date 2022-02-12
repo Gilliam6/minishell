@@ -23,20 +23,16 @@ int main(void)
 	shell.envi = init_environment(environ, &shell.garbage);
 	if (!shell.envi)
 		return (ft_strerror(MLC_ERR, 1));
-//	printf("%d garbage size\n", ft_custom_lstsize(shell
-//	.garbage));
 	while(!shell.exit)
 	{
 		set_input_signals();
-		signal(SIGINT, &signal_handler2);
-		shell.tokens = 0;
-		//shell.input_line = 0;
 		shell.input_line = readline("minishell$");
-		// if (ft_strcmp(shell.input_line, "exit"))
-		// 	break;
+		signal(SIGINT, &signal_handler);
+		shell.tokens = 0;
 		if(!shell.input_line)
 		{
-			ft_putstr_fd("exit\n", 1);
+			printf("\033[11C");
+			printf("\x1bM\x1b[%d`exit\n", (int)ft_strlen(shell.input_line) + 1);
 			free(shell.input_line);
 			return(1);
 		}
