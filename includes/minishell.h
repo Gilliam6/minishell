@@ -7,6 +7,7 @@
 # include <dirent.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <termios.h>
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
@@ -19,7 +20,7 @@
 
 //CMD
 # define EXIT			1
-# define ECHO			2
+//# define ECHO			2
 # define PWD			3
 # define EXPORT			4
 # define UNSET			5
