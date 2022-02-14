@@ -72,10 +72,20 @@ void ft_pwd()
 	printf("%s\n", buf);
 }
 
-//void ft_export(char **data_command, t_env **env) // todo здесь мне нужен garbage collector, чтобы занести в него сыллку на новую память
-//{
-//
-//}
+void ft_export(char **data_command, t_env **env, t_garbage **garbage) // todo нужно ли делать, что добавляется несколько переменных? типа: export first=1 second=2 ...
+{
+	t_env *begin;
+
+	begin = *env;
+	if (!begin)
+	{
+		*env = new_node(*data_command, garbage);
+		return;
+	}
+	while (begin->next)
+		begin = begin->next;
+	begin->next = new_node(*data_command, garbage);
+}
 
 void ft_unset(char **data_command, t_env **env) // todo нужно ли делать, что удаляется несколько переменных? типа: unset first second ...
 {
@@ -118,7 +128,7 @@ void ft_env(t_env *env)
 //}
 
 
-void    ft_check_cmd(char **command, t_env **env)
+void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
 {
     if (ft_strcmp(command[0], STR_ECHO))
         ft_echo(++command);
@@ -126,8 +136,8 @@ void    ft_check_cmd(char **command, t_env **env)
 		ft_cd(++command);
 	else if (ft_strcmp(command[0], STR_PWD))
 		ft_pwd();
-//	else if (ft_strcmp(command[0], STR_EXPORT))
-//		ft_export();
+	else if (ft_strcmp(command[0], STR_EXPORT))
+		ft_export(++command, env, garbage);
 	else if (ft_strcmp(command[0], STR_UNSET))
 		ft_unset(++command, env);
 	else if (ft_strcmp(command[0], STR_ENV))
@@ -138,6 +148,5 @@ void    ft_check_cmd(char **command, t_env **env)
 
 void	ft_exec_command(t_mini *shell)
 {
-//	printf("###");
-    ft_check_cmd(shell->tokens->name, &shell->envi);
+    ft_check_cmd(shell->tokens->name, &shell->envi, &shell->garbage);
 }

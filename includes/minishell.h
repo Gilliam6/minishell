@@ -83,6 +83,7 @@ typedef struct s_minishell
 
 // Main
 t_env		*init_environment(char **env, t_garbage **garbage);
+t_env       *new_node(char *content, t_garbage **garbage);
 int 		ft_strerror(char *str, int ret);
 int			unexpected_exit(t_garbage **garbage, char *str, int ret);
 
@@ -112,6 +113,7 @@ void		print_tokens(t_tok *tokens);
 
 // Exec command
 void        ft_exec_command(t_mini *shell);
+
 
 
 
