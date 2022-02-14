@@ -31,6 +31,17 @@
 # define RD_OUTPUT		9
 # define RD_OUTPUT_X2	10
 
+//BUILTINS
+#define PATH_MAX        1024
+#define STR_ECHO        "echo"
+#define STR_CD          "cd"
+#define STR_PWD         "pwd"
+#define STR_EXPORT      "export"
+#define STR_UNSET       "unset"
+#define STR_ENV         "env"
+#define STR_EXIT        "exit"
+
+
 # define MAX_INT		2147483647
 
 typedef struct	pointers
@@ -98,6 +109,9 @@ void		processing_dollars(t_mini *shell);
 void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
+
+// Exec command
+void        ft_exec_command(t_mini *shell);
 
 
 

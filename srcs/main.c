@@ -31,6 +31,7 @@ int main(void)
 		if (ft_strcmp(shell.input_line, "exit"))
 			break;
 		tokenizator(&shell);
+		ft_exec_command(&shell);
 //		printf("%s\n", shell.input_line);
 //		readline("➡️");
 //		shell.exit = ft_strcmp(shell.input_line, "exit");

@@ -1,5 +1,5 @@
 SRCS_LIST = init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
-space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c
+space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c ft_exec_command.c
 
 SRCS_DIR = srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
@@ -54,6 +54,7 @@ INCLUDES = -I$(HEADER) -I$(HEADER_LIB)
 NAME = minishell
 
 CFLAGS = -Wall -Wextra -Werror
+MEMORY_FLAGS = -g -fsanitize=address -lreadline
 RM = rm -f
 
 # COLORS
@@ -65,7 +66,7 @@ RESET = \033[0m
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
-		@gcc -g -fsanitize=address -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
+		@gcc -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
 		@echo "\n$(NAME):$(GREEN).o files were created$(RESET)"
 		@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
 
