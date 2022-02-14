@@ -33,6 +33,7 @@
 
 //BUILTINS
 #define PATH_MAX        1024
+#define BIN_PATH        "/bin/"
 #define STR_ECHO        "echo"
 #define STR_CD          "cd"
 #define STR_PWD         "pwd"

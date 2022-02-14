@@ -122,10 +122,20 @@ void ft_env(t_env *env)
 	}
 }
 
-//void ft_execve(char **command, t_env *env) // todo здесь нужен env в формате **char, листы здес не нужны
-//{
-//	execve(*command, &command[1], 0);
-//}
+void ft_execve(char **command, char *bin_path) // todo здесь нужен env в формате **char, листы здес не нужны
+{
+	char *env[] = { "HOME=/Users/ebalsami", "LOGNAME=ebalsami", (char *)0 };
+	char command_path[PATH_MAX];
+	int i;
+
+	i = 0;
+	while (*bin_path)
+		command_path[i++] = *bin_path++;
+	while (**command)
+		command_path[i++] = *(*command)++;
+	command_path[i] = 0;
+	execve(command_path, command, env);
+}
 
 
 void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
@@ -142,8 +152,8 @@ void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
 		ft_unset(++command, env);
 	else if (ft_strcmp(command[0], STR_ENV))
 		ft_env(*env);
-//	else
-//		ft_execve(command, *env);
+	else
+		ft_execve(command, BIN_PATH);
 }
 
 void	ft_exec_command(t_mini *shell)
