@@ -127,6 +127,8 @@ void ft_execve(char **command, char *bin_path) // todo здесь нужен env
 	char *env[] = { "HOME=/Users/ebalsami", "LOGNAME=ebalsami", (char *)0 };
 	char command_path[PATH_MAX];
 	int i;
+	int status;
+	pid_t pid;
 
 	i = 0;
 	while (*bin_path)
@@ -134,7 +136,13 @@ void ft_execve(char **command, char *bin_path) // todo здесь нужен env
 	while (**command)
 		command_path[i++] = *(*command)++;
 	command_path[i] = 0;
-	execve(command_path, command, env);
+	pid = fork();
+	if (pid == -1)
+		printf("ERROR"); //todo сделать очистку
+	else if (pid == 0)
+		execve(command_path, command, env);
+	else
+		waitpid(pid, &status, WUNTRACED);
 }
 
 
