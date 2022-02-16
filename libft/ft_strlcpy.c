@@ -1,24 +1,30 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/21 09:25:18 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/30 11:39:55 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t
-dstsize)
+#include "libft.h"
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	int	counter;
+	size_t	len;
 
-	counter = 0;
-	if (!dst || !src)
+	if (!dst)
 		return (0);
-	if (dstsize > 0)
-	{
-		dstsize --;
-		while (dstsize-- && src[counter])
-		{
-			dst[counter] = src[counter];
-			counter++;
-		}
-		dst[counter] = 0;
-	}
-	while (src[counter])
-		counter++;
-	return (counter);
+	len = ft_strlen(src);
+	if (size == 0)
+		return (len);
+	size--;
+	if (len < size)
+		size = len;
+	dst[size] = 0;
+	ft_memmove(dst, src, size);
+	return (len);
 }

@@ -1,22 +1,29 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/20 11:50:29 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/20 15:35:23 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	*ft_memccpy(void *dst, const void *src, int c, size_t len)
+#include "libft.h"
+
+void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
-	unsigned char	marker;
-	unsigned char	*dst_cpy;
+	void	*ch;
 
-	dst_cpy = dst;
-	marker = c;
-	while (len--)
+	ch = &c;
+	while (n-- > 0)
 	{
-		*dst_cpy = *(unsigned char *)src;
-		if (*(unsigned char *)src == marker)
-		{
-			dst_cpy++;
-			return (dst_cpy);
-		}
-		dst_cpy++;
+		*((char *)dest) = *((char *)src);
+		if (*((char *)src) == *((char *)ch))
+			return (++dest);
 		src++;
+		dest++;
 	}
 	return (0);
 }

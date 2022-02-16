@@ -1,8 +1,20 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/22 08:29:06 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/27 15:53:08 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_isalnum(int d)
+#include "libft.h"
+
+int	ft_isalnum(int c)
 {
-	if ((d < 48 || d > 57) && (d > 90 || d < 65) && (d > 122 || d < 97))
-		return (0);
-	return (1);
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
+	return (0);
 }

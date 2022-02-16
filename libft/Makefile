@@ -1,85 +1,49 @@
-SOURCE	=	ft_atoi.c \
-			ft_bzero.c \
-			ft_calloc.c \
-			ft_isalnum.c \
-			ft_isalpha.c \
-			ft_isascii.c \
-			ft_isdigit.c \
-			ft_isprint.c \
-			ft_itoa.c \
-			ft_memccpy.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_memset.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_fd.c \
-			ft_putstr_fd.c \
-			ft_split.c \
-			ft_strchr.c \
-			ft_strdup.c \
-			ft_strjoin.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strlen.c \
-			ft_strmapi.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strrchr.c \
-			ft_strtrim.c \
-			ft_substr.c \
-			ft_tolower.c \
-			ft_toupper.c \
-			ft_strcmp.c
+#Library
+NAME = 				libft.a
 
-BONUS	=	ft_lstadd_back.c \
-			ft_lstadd_front.c \
-			ft_lstclear.c \
-			ft_lstdelone.c \
-			ft_lstiter.c \
-			ft_lstlast.c \
-			ft_lstmap.c \
-			ft_lstnew.c	\
-			ft_lstsize.c
+#Compiler 
+CC = 				gcc
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-RESET = \033[0m
+#Flags
+CFLAGS = 			-Wall -Wextra -Werror
 
-HEADER	=	../includes/libft.h
+#Headers
+HEA_PATH = 			.
+HEA_NAME = 			libft.h
+HEA =				${addprefix ${HEA_PATH}/,${HEA_NAME}}
 
-BONUS_O	=	${BONUS:.c=.o}
 
-OBJECTS	=	${SOURCE:.c=.o}
+#Sources
+SRC_NAME = 			${shell ls ft_[!l]*.c}
 
-RM		=	rm -f
+#Bonus
+BONUS_NAME = 		${shell ls ft_[l]*.c} get_next_line.c
 
-NAME	=	libft.a
+#Objects
+OBJ_PATH = 			.
+OBJ_NAME = 			${SRC_NAME:.c=.o}
+OBJ_BONUS_NAME =	${BONUS_NAME:.c=.o}
+OBJ = 				${addprefix ${OBJ_PATH}/,${OBJ_NAME}}
+OBJ_BONUS =			${addprefix ${OBJ_PATH}/,${OBJ_BONUS_NAME}}
 
-AR		=	ar rc
+${NAME}: 			${OBJ} ${HEA}
+					@ar rc ${NAME} ${OBJ}
 
-CFLAGS	=	-g -Wall -Wextra -Werror
+%.o: 				%.c ${HEA}
+					${CC} ${CFLAGS} -c $< -o $@
 
-%.o: %.c 	$(HEADER)
-			@gcc $(CFLAGS) -c $< -o ${<:.c=.o}
-			@echo "$(GREEN)/$(RESET)\c"
 
-$(NAME):	$(OBJECTS)
-			@$(AR) $(NAME) $(OBJECTS)
+all: 				${NAME}
 
-all:		$(NAME)
+bonus:				${OBJ} ${OBJ_BONUS}
+					@ar rc ${NAME} ${OBJ} ${OBJ_BONUS}
 
 clean:
-			@$(RM) $(OBJECTS) $(BONUS_O)
+					@rm -rf ${OBJ} ${OBJ_BONUS}
 
-fclean:		clean
-			@$(RM) $(NAME)
+fclean: 			clean
+					@rm -rf ${NAME} 
 
-re:			fclean all
+re: 				fclean all
 
-bonus:		$(BONUS_O)
-			@$(AR) $(NAME) $(BONUS_O)
-
-.PHONY:		all clean fclean bonus
+.PHONY: 			all clean fclean re bonus
