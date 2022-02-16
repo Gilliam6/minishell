@@ -1,15 +1,28 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/16 16:17:34 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/18 21:16:13 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	*ft_memset(void *point, int c, size_t len)
+#include "libft.h"
+
+void	*ft_memset(void *s, int c, size_t n)
 {
-	unsigned int	counter;
+	void	*res;
+	void	*ch;
 
-	counter = 0;
-	c = (unsigned char)c;
-	while (counter < len)
+	res = s;
+	ch = &c;
+	while (n-- > 0)
 	{
-		((unsigned char *)point)[counter] = c;
-		counter++;
+		*((char *)s) = *((char *)ch);
+		s++;
 	}
-	return (point);
+	return (res);
 }

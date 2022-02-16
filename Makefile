@@ -1,97 +1,76 @@
-SRCS_LIST = init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
-space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c
+#Programm
+NAME = 				minishell
+NAME_BONUS = 		minishell_bonus
 
-SRCS_DIR = srcs/
-SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
+#Libft
+LIBFT_PATH =		libft
+LIBFT = 			ft
 
-OBJ_DIR = objects/
-OBJ_LIST = $(patsubst %.c, %.o, $(SRCS_LIST))
-OBJ = $(addprefix $(OBJ_DIR), $(OBJ_LIST))
+#Readline
+RL_PATH =			readline
+RL = 				readline history
 
-LIBFT = libft/libft.a
+#Compiler
+CC = 				gcc
 
-SOURCE = libft/ft_atoi.c \
-         		 libft/ft_bzero.c \
-         		 libft/ft_calloc.c \
-         		 libft/ft_isalnum.c \
-         		 libft/ft_isalpha.c \
-         		 libft/ft_isascii.c \
-         		 libft/ft_isdigit.c \
-         		 libft/ft_isprint.c \
-         		 libft/ft_itoa.c \
-         		 libft/ft_memccpy.c \
-         		 libft/ft_memchr.c \
-         		 libft/ft_memcmp.c \
-         		 libft/ft_memcpy.c \
-         		 libft/ft_memmove.c \
-         		 libft/ft_memset.c \
-         		 libft/ft_putchar_fd.c \
-         		 libft/ft_putendl_fd.c \
-         		 libft/ft_putnbr_fd.c \
-         		 libft/ft_putstr_fd.c \
-         		 libft/ft_split.c \
-         		 libft/ft_strchr.c \
-         		 libft/ft_strdup.c \
-         		 libft/ft_strjoin.c \
-         		 libft/ft_strlcat.c \
-         		 libft/ft_strlcpy.c \
-         		 libft/ft_strlen.c \
-         		 libft/ft_strmapi.c \
-         		 libft/ft_strncmp.c \
-         		 libft/ft_strnstr.c \
-         		 libft/ft_strrchr.c \
-         		 libft/ft_strtrim.c \
-         		 libft/ft_substr.c \
-         		 libft/ft_tolower.c \
-         		 libft/ft_toupper.c \
-         		 libft/ft_strcmp.c
+#Flags
+CFLAGS = 			-Wall -Wextra -Werror
 
-HEADER = includes/minishell.h
-HEADER_LIB = includes/libft.h
+#Include
+INC_PATH = 			includes
+INC = 				-I${INC_PATH} -I${LIBFT_PATH} -I${RL_PATH}
 
-INCLUDES = -I$(HEADER) -I$(HEADER_LIB)
+#Headers
+HEA_NAME =			minishell.h
+HEA = 				${addprefix ${INC_PATH}/,${HEA_NAME}}
 
-NAME = minishell
+#Sources
+SRC_PATH =			srcs
+SRC_NAME_MAIN =		init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
+					space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c token_recognizer.c signals.c
+SRC_NAME_BONUS =	init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
+					space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c token_recognizer.c signals.c
 
-CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+#Objects
+OBJ_PATH = 			objects
+OBJ_MAIN = 			${addprefix ${OBJ_PATH}/,${SRC_NAME_MAIN:.c=.o}}
+OBJ_BONUS = 		${addprefix ${OBJ_PATH}/,${SRC_NAME_BONUS:.c=.o}}
 
-# COLORS
+${OBJ_PATH}/%.o:	${SRC_PATH}/%.c ${HEA} ${LIBFT_PATH}/*.c ${LIBFT_PATH}/*.h ${LIBFT_PATH}/Makefile ${RL_PATH}/*.c ${RL_PATH}/*.h ${RL_PATH}/Makefile Makefile
+					@mkdir -p $(dir $@)
+					${CC} ${CFLAGS} -c $< -o $@ ${INC}
 
-GREEN = \033[0;32m
-RED = \033[0;31m
-RESET = \033[0m
+${NAME}:			${OBJ_MAIN}
+					@$(MAKE) bonus -C ${LIBFT_PATH}
+					@$(MAKE) static -C ${RL_PATH}
+					${CC} ${CFLAGS} -o ${NAME} ${OBJ_MAIN} -L${LIBFT_PATH} -l${LIBFT} -L${RL_PATH} ${addprefix -l,${RL}} -ltermcap
 
-all: $(NAME)
+${NAME_BONUS}:		${OBJ_BONUS}
+					@$(MAKE) bonus -C ${LIBFT_PATH}
+					@$(MAKE) static -C ${RL_PATH}
+					${CC} ${CFLAGS} -o ${NAME_BONUS} ${OBJ_BONUS} -L${LIBFT_PATH} -l${LIBFT} -L${RL_PATH} ${addprefix -l,${RL}} -ltermcap
 
-$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJ)
-		@gcc -g -fsanitize=address -lreadline $(CFLAGS) $(LIBFT) $(INCLUDES) $(OBJ) -o $(NAME)
-		@echo "\n$(NAME):$(GREEN).o files were created$(RESET)"
-		@echo "$(NAME): $(GREEN)$(NAME) was created$(RESET)"
+#Rules
 
-$(LIBFT) : $(SOURCE)
-		@make -C libft
-		@echo "\nLibft:$(GREEN).a file was created$(RESET)"
+all: 				${NAME}
 
-$(OBJ_DIR):
-		@mkdir -p $(OBJ_DIR)
-		@echo "$(NAME): $(GREEN)$(OBJ_DIR) was created$(RESET)"
-
-$(OBJ_DIR)%.o: $(SRCS_DIR)%.c $(HEADER)
-		@gcc $(CFLAGS) -c $(INCLUDES) $< -o $@
-		@echo "$(GREEN)/$(RESET)\c"
+bonus:				${NAME_BONUS}
 
 clean:
-		@make -C libft clean
-		@echo "$(NAME):$(GREEN) libft is cleaned$(RESET)"
-		@echo "$(NAME):$(GREEN) objects dirs are cleaned$(RESET)"
-		@rm -rf objects
+					rm -rf ${OBJ_PATH}
+					@make clean -C ${LIBFT_PATH}
+					@make clean -C ${RL_PATH}
 
-fclean: clean
-		@$(RM) $(NAME)
-		@$(RM) $(BONUS)
-		@make -C libft fclean
+fclean: 			clean
+					rm -rf ${NAME}
+					rm -rf ${NAME_BONUS}
+					@make fclean -C ${LIBFT_PATH}
 
-re : fclean all
+re: 				fclean all
 
-.PHONY: all clean fclean re
+norm:				fclean
+					norminette ./src
+					norminette ./inc
+					norminette ./libft
+
+.PHONY: 			all clean fclean re bonus norm

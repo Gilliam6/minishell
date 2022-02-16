@@ -1,18 +1,30 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/23 08:39:27 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/27 18:11:35 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		counter;
-	char	*mem;
+	char	*res;
+	size_t	len;
 
-	mem = (char *)malloc(ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1);
-	if (!mem)
+	if (!s1 || !s2)
 		return (0);
-	counter = 0;
-	while (*s1)
-		mem[counter++] = *s1++;
-	while (*s2)
-		mem[counter++] = *s2++;
-	mem[counter] = 0;
-	return (mem);
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	res = malloc(len);
+	if (!res)
+		return (0);
+	res[len - 1] = 0;
+	ft_strlcpy(res, s1, len);
+	ft_strlcat(res, s2, len);
+	return (res);
 }

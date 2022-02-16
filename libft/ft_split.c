@@ -1,99 +1,87 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 08:36:52 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/30 11:32:16 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	ft_free(char **spliter, unsigned int i)
+#include "libft.h"
+
+static size_t	get_count_w(char const *str, char c)
 {
-	unsigned int	d;
+	size_t	res;
+	char	*f;
+	char	*s;
 
-	d = 0;
-	while (d < i)
+	res = 0;
+	s = (char *)str;
+	f = ft_strchr(s, c);
+	while (f)
 	{
-		free(spliter[d]);
-		d++;
+		if (!*f)
+			break ;
+		if (s == f)
+			f++;
+		else
+			res++;
+		s = f;
+		f = ft_strchr(s, c);
 	}
-	free(spliter);
+	if (ft_strlen(s))
+		res++;
+	return (res);
 }
 
-static unsigned int	ft_pieces(char const *s, char c)
+static void	*free_mem(char **arr)
 {
-	unsigned int	counter;
-	unsigned int	delen;
-
-	delen = 0;
-	counter = 0;
-
-	while (s[counter] && s[counter] == c)
-		counter++;
-	while (s[counter])
+	while (*arr)
 	{
-		counter++;
-		if (s[counter] && s[counter] == c)
-		{
-			delen++;
-			while (s[counter] == c)
-				counter++;
-		}
+		free(*arr);
+		*arr = *arr + 1;
 	}
-	if (counter != 0 && s[counter - 1] != c)
-		delen++;
-	return (delen);
+	free(arr);
+	return (0);
 }
 
-static unsigned int	ft_cache(const char *s, char c)
+static void	get_pos(char const *s, char c, size_t *b, size_t *e)
 {
-	unsigned int	i;
-
-	i = 0;
-	while (*s && *s == c)
-		s++;
-	while (*s && *s != c)
-	{
-		i++;
-		s++;
-	}
-	return (i);
-}
-
-static char	**ft_filler(const char **s, char **spliter, char c, unsigned int i)
-{
-	unsigned int	counter;
-
-	counter = 0;
-	while (**s && **s == c)
-		(*s)++;
-	while ((*s)[counter] && (*s)[counter] != c)
-	{
-		spliter[i][counter] = (*s)[counter];
-		counter++;
-	}
-	spliter[i][counter] = 0;
-	(*s) += counter;
-	return (spliter);
+	while (s[*b] == c)
+		*b = *b + 1;
+	*e = *b;
+	while (s[*e] != c && s[*e] != 0)
+		*e = *e + 1;
+	return ;
 }
 
 char	**ft_split(char const *s, char c)
 {
-	unsigned int	delen;
-	unsigned int	i;
-	char			**spliter;
-	unsigned int	str_len;
+	char	**res;
+	size_t	count;
+	size_t	i;
+	size_t	b;
+	size_t	e;
 
-	delen = ft_pieces(s, c);
-	spliter = (char **)malloc(sizeof(char *) * (delen + 1));
-	if (!spliter)
+	if (!s)
 		return (0);
-	i = 0;
-	while (i < delen)
+	i = -1;
+	count = get_count_w(s, c);
+	res = malloc(sizeof(void *) * (count + 1));
+	if (!res)
+		return (0);
+	e = -1;
+	while (++i < count)
 	{
-		str_len = ft_cache(s, c);
-		spliter[i] = (char *)malloc(sizeof(char) * (str_len + 1));
-		if (!(spliter[i]))
-		{
-			ft_free(spliter, i);
-			return (0);
-		}
-		spliter = ft_filler(&s, spliter, c, i);
-		i++;
+		b = e + 1;
+		get_pos(s, c, &b, &e);
+		res[i] = ft_substr(s, b, e - b);
+		if (!res)
+			return (free_mem(res));
 	}
-	spliter[i] = 0;
-	return (spliter);
+	res[i] = 0;
+	return (res);
 }

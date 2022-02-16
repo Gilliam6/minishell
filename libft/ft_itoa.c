@@ -1,57 +1,57 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 11:28:53 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/27 22:28:06 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static int	ft_diglen(int n)
+#include "libft.h"
+
+static size_t	get_len(int n, unsigned int *un)
 {
-	int	counter;
+	size_t			res;
+	unsigned int	n_;
 
-	counter = 0;
-	if (n == 0)
-		return (1);
-	if (n < 0)
-		counter++;
-	while (n)
-	{
-		counter++;
-		n /= 10;
-	}
-	return (counter);
-}
-
-static char	*ft_filler(char *itoa, int n, int diglen)
-{
-	itoa[diglen] = 0;
-	diglen--;
+	res = 1;
 	if (n < 0)
 	{
-		itoa[0] = '-';
-		if (n == -2147483648)
-		{
-			itoa[diglen] = 56;
-			n /= 10;
-			diglen--;
-		}
-		n = -n;
+		res++;
+		*un = n * -1;
 	}
-	if (n == 0)
-		itoa[0] = 48;
-	while (n)
+	else
+		*un = n;
+	n_ = *un / 10;
+	while (n_ > 0)
 	{
-		itoa[diglen] = n % 10 + 48;
-		n /= 10;
-		diglen--;
+		n_ = n_ / 10;
+		res++;
 	}
-	return (itoa);
+	return (res);
 }
 
 char	*ft_itoa(int n)
 {
-	int		diglen;
-	char	*itoa;
+	char			*res;
+	unsigned int	un;
+	size_t			len;
 
-	diglen = ft_diglen(n);
-	itoa = (char *)malloc(diglen + 1);
-	if (!itoa)
+	len = get_len(n, &un);
+	res = malloc(len + 1);
+	if (!res)
 		return (0);
-	itoa = ft_filler(itoa, n, diglen);
-	return (itoa);
+	res[len] = 0;
+	res[len - 1] = 48;
+	if (n < 0)
+		res[0] = '-';
+	while (un > 0)
+	{
+		res[--len] = (un % 10) + 48;
+		un = un / 10;
+	}
+	return (res);
 }

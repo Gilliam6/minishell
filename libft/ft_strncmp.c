@@ -1,13 +1,23 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/21 15:09:28 by msimon            #+#    #+#             */
+/*   Updated: 2021/09/28 22:00:40 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	counter;
+	size_t	len;
 
-	counter = 0;
-	if (n == 0)
-		return (0);
-	while (counter < n - 1 && s1[counter] == s2[counter] && s1[counter] != '\0')
-		counter++;
-	return ((unsigned char)s1[counter] - (unsigned char)s2[counter]);
+	len = ft_strlen(s2) + 1;
+	if (n < len)
+		len = n;
+	return (ft_memcmp(s1, s2, len));
 }

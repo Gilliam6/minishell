@@ -1,27 +1,41 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/28 16:03:37 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/28 16:39:49 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*final;
+	t_list	*res;
+	t_list	*buf;
 
-	if (!lst)
-		return (0);
-	final = ft_lstnew(f(lst->content));
-	if (!final)
+	res = 0;
+	if (f && lst)
 	{
-		del(final);
-		return (0);
-	}
-	lst = lst->next;
-	while (lst)
-	{
-		if (!(f(lst->content)))
-		{
-			ft_lstclear(&final, del);
+		res = ft_lstnew(f(lst->content));
+		if (!res)
 			return (0);
-		}
-		ft_lstadd_back(&final, ft_lstnew(f(lst->content)));
 		lst = lst->next;
+		buf = res;
+		while (lst)
+		{
+			buf->next = ft_lstnew(f(lst->content));
+			if (!buf->next)
+			{
+				ft_lstclear(&res, del);
+				return (0);
+			}
+			buf = buf->next;
+			lst = lst->next;
+		}		
 	}
-	return (final);
+	return (res);
 }

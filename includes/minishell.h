@@ -7,11 +7,12 @@
 # include <dirent.h>
 # include <sys/wait.h>
 # include <limits.h>
+# include <termios.h>
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "readline.h"
+# include "history.h"
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
@@ -19,7 +20,7 @@
 
 //CMD
 # define EXIT			1
-# define ECHO			2
+//# define ECHO			2
 # define PWD			3
 # define EXPORT			4
 # define UNSET			5
@@ -89,6 +90,7 @@ char		**parser(t_mini *shell);
 int 		quotes(char *line, int i); // Quotes checker
 int 		quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
+char	**ft_mega_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
@@ -99,7 +101,8 @@ void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
 
-
-
-
+void	set_input_signals(void);
+void	signal_handler(int signo);
+void	signal_handler2(int signo);
+//void rl_replace_line (const char *text, int clear_undo);
 #endif

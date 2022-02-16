@@ -1,13 +1,22 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 21:14:00 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/24 21:18:25 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {
 	if (!s)
 		return ;
-	while (*s)
-	{
-		write(fd, s, 1);
-		s++;
-	}
+	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
+	return ;
 }

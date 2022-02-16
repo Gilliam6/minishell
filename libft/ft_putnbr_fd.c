@@ -1,28 +1,39 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 21:20:44 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/30 11:11:08 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static char	write_nbr(unsigned int n, int fd)
+{
+	if (n > 9)
+	{
+		ft_putchar_fd(write_nbr(n / 10, fd), fd);
+		return ((char)(n % 10) + 48);
+	}
+	else
+		return ((char)(n + 48));
+}
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	k;
+	int	z;
 
-	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
-	else
+	if (n < 0)
 	{
-		if (n < 0)
-		{
-			write(fd, "-", 1);
-			n = -n;
-		}
-		if (n > 9)
-		{
-			k = (n % 10) + '0';
-			ft_putnbr_fd(n / 10, fd);
-			write(fd, &k, 1);
-		}
-		if (n <= 9)
-		{
-			k = (n % 10) + '0';
-			write(fd, &k, 1);
-		}
+		z = -1;
+		ft_putchar_fd('-', fd);
 	}
+	else
+		z = 1;
+	ft_putchar_fd(write_nbr(n * z, fd), fd);
+	return ;
 }

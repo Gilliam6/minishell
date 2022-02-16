@@ -1,4 +1,16 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/24 21:02:28 by msimon            #+#    #+#             */
+/*   Updated: 2021/04/24 21:08:02 by msimon           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -6,7 +18,8 @@ void	ft_putstr_fd(char *s, int fd)
 		return ;
 	while (*s)
 	{
-		write(fd, s, 1);
+		ft_putchar_fd(*s, fd);
 		s++;
 	}
+	return ;
 }
