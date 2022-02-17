@@ -52,12 +52,16 @@ int main(void)
 			free(shell.input_line);
 			return(1);
 		}
+
 		tokenizator(&shell);
+
 		ft_exec_command(&shell);
+
 //		printf("%s\n", shell.input_line);
 //		readline("➡️");
 //		shell.exit = ft_strcmp(shell.input_line, "exit");
 		add_history(shell.input_line);
+
 	}
 	ft_custom_lstclear(&shell.garbage, free);
 	printf("%s\n", "🖕");
