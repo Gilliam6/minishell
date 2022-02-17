@@ -32,6 +32,18 @@
 # define RD_OUTPUT		9
 # define RD_OUTPUT_X2	10
 
+//BUILTINS
+#define PATH_MAX        1024
+#define BIN_PATH        "/bin/"
+#define STR_ECHO        "echo"
+#define STR_CD          "cd"
+#define STR_PWD         "pwd"
+#define STR_EXPORT      "export"
+#define STR_UNSET       "unset"
+#define STR_ENV         "env"
+#define STR_EXIT        "exit"
+
+
 # define MAX_INT		2147483647
 
 typedef struct	pointers
@@ -73,6 +85,7 @@ typedef struct s_minishell
 
 // Main
 t_env		*init_environment(char **env, t_garbage **garbage);
+t_env       *new_node(char *content, t_garbage **garbage);
 int 		ft_strerror(char *str, int ret);
 int			unexpected_exit(t_garbage **garbage, char *str, int ret);
 
@@ -100,6 +113,13 @@ void		processing_dollars(t_mini *shell);
 void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
 int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
+
+// Exec command
+void        ft_exec_command(t_mini *shell);
+
+
+
+
 
 void	set_input_signals(void);
 void	signal_handler(int signo);
