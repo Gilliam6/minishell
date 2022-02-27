@@ -13,6 +13,9 @@
 # include <stdio.h>
 # include "readline.h"
 # include "history.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
@@ -34,7 +37,7 @@
 
 //BUILTINS
 #define PATH_MAX        1024
-#define BIN_PATH        "/bin/"
+#define PATH			"PATH"
 #define STR_ECHO        "echo"
 #define STR_CD          "cd"
 #define STR_PWD         "pwd"
@@ -65,9 +68,16 @@ typedef struct env_list
 //	struct commands_line	*next;
 //}				t_cmd;
 
+//typedef struct	s_std
+//{
+//	int	in;
+//	int out; // todo Можно еще err сделать
+//}				t_std;
+
 typedef struct tokens_list
 {
 	char				**name;
+	int					std[2];
 //	t_cmd 				cmd;
 	struct tokens_list	*next;
 }			t_tok;

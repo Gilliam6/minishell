@@ -15,6 +15,7 @@ void    ft_echo(char **data_command)
 		{
 			if (flag_space)
 				printf(" ");
+//			ft_putstr_fd()
 			printf("%s", *data_command);
 			flag_space = 1;
 		}
@@ -22,6 +23,7 @@ void    ft_echo(char **data_command)
 	}
 	if (!flag_n)
 		printf("\n");
+	exit(0);
 }
 
 void	ft_cd(char **data_command) // todo Обработку ~ / хотелось бы сделать в парсере
@@ -32,7 +34,11 @@ void	ft_cd(char **data_command) // todo Обработку ~ / хотелось 
 	int len_path;
 	int j;
 
-	getcwd(buf, PATH_MAX); // todo обработка если вернет -1
+	if (getcwd(buf, PATH_MAX) < 0)
+	{
+		perror("getcwd");
+		exit(1);
+	}
 	cd_path = ft_split(*data_command, '/'); // todo этот делить только для linux/MACOS
 	len_path = ft_strlen(buf) - 1;
 	printf("path = %s len_path = %d\n", buf, len_path);
@@ -61,15 +67,20 @@ void	ft_cd(char **data_command) // todo Обработку ~ / хотелось 
 	}
 	free(cd_path);
 	printf("buf_final = %s\n", buf);
-	chdir(buf); // todo обработка если вернет -1
+	if (chdir(buf) < 0)
+		perror("cd");
+	exit(0);
 }
 
 void ft_pwd()
 {
 	char buf[PATH_MAX];
 
-	getcwd(buf, PATH_MAX); // todo обработка если вернет -1
-	printf("%s\n", buf);
+	if (getcwd(buf, PATH_MAX) < 0)
+		perror("getcwd");
+	else
+		printf("%s\n", buf);
+	exit(0);
 }
 
 void ft_export(char **data_command, t_env **env, t_garbage **garbage) // todo нужно ли делать, что добавляется несколько переменных? типа: export first=1 second=2 ...
@@ -85,6 +96,7 @@ void ft_export(char **data_command, t_env **env, t_garbage **garbage) // todo н
 	while (begin->next)
 		begin = begin->next;
 	begin->next = new_node(*data_command, garbage);
+	exit(0);
 }
 
 void ft_unset(char **data_command, t_env **env) // todo нужно ли делать, что удаляется несколько переменных? типа: unset first second ...
@@ -111,6 +123,7 @@ void ft_unset(char **data_command, t_env **env) // todo нужно ли дела
 		prev = begin;
 		begin = begin->next;
 	}
+	exit(0);
 }
 
 void ft_env(t_env *env)
@@ -120,33 +133,118 @@ void ft_env(t_env *env)
 		printf("%s\n",env->content);
 		env = env->next;
 	}
+	exit(0);
 }
 
-void ft_execve(char **command, char *bin_path) // todo здесь нужен env в формате **char, листы здес не нужны
+int len_list_env(t_env *env)
 {
-	char *env[] = { "HOME=/Users/ebalsami", "LOGNAME=ebalsami", (char *)0 };
-	char command_path[PATH_MAX];
 	int i;
-	int status;
-	pid_t pid;
 
 	i = 0;
-	while (*bin_path)
-		command_path[i++] = *bin_path++;
-	while (**command)
-		command_path[i++] = *(*command)++;
-	command_path[i] = 0;
-	pid = fork();
-	if (pid == -1)
-		printf("ERROR"); //todo сделать очистку
-	else if (pid == 0)
-		execve(command_path, command, env);
-	else
-		waitpid(pid, &status, WUNTRACED);
+	while (env)
+	{
+		env = env->next;
+		i++;
+	}
+	return i;
+}
+
+char **env_convert(t_env *env, t_garbage **garbage)
+{
+	int len;
+	int i;
+	char **result_env;
+
+	len = len_list_env(env);
+	result_env = (char **)save_malloc(sizeof(char *) * (len + 1), garbage);
+	result_env[len] = 0;
+	i = 0;
+	while (env)
+	{
+		result_env[i] = env->content;
+		env = env->next;
+		i++;
+	}
+	return result_env;
+}
+
+int	file_descriptor_handler(int in, int out)
+{
+	if (in != 0)
+	{
+		dup2(in, 0);
+		close(in);
+	}
+	if (out != 1)
+	{
+		dup2(out, 1);
+		close(out);
+	}
+	return (0);
+}
+
+char *find_bin_path(char *command, t_env *env, t_garbage **garbage)
+{
+	char *bin_path;
+	char **split_path;
+	int i;
+	int j;
+	struct stat f;
+
+	bin_path = save_malloc(1024, garbage);
+	while (env)
+	{
+		if (!ft_strncmp(env->content, PATH, ft_strlen(PATH)))
+		{
+			split_path = ft_mega_custom_split(&env->content[ft_strlen(PATH) + 1], ':', garbage);
+			while (*split_path)
+			{
+				i = 0;
+				while (**split_path)
+					bin_path[i++] = *(*split_path)++;
+				bin_path[i++] = '/';
+				j = 0;
+				while (command[j])
+					bin_path[i++] = command[j++];
+				bin_path[i] = 0;
+				if (lstat(bin_path, &f) == 0)
+					return bin_path;
+				split_path++;
+			}
+		}
+		env = env->next;
+	}
+	return 0;
+}
+
+void ft_execve(char **command, t_env *env, t_garbage **garbage) // todo здесь нужен env в формате **char, листы здес не нужны
+{
+	char **env_array;
+	char *bin_path;
+//	char command_path[PATH_MAX];
+//	int i;
+//
+//	i = 0;
+//	while (*bin_path)
+//		command_path[i++] = *bin_path++;
+//	while (**command)
+//		command_path[i++] = *(*command)++;
+//	command_path[i] = 0;
+
+	env_array = env_convert(env, garbage);
+	bin_path = find_bin_path(command[0], env, garbage);
+	if (!bin_path)
+		exit(1);
+	if (execve(bin_path, command, env_array) < 0)
+	{
+		perror("execve");
+		exit(1);
+	}
+	exit(0);
 }
 
 
-void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
+void    ft_do_cmd(char **command, t_env **env, t_garbage **garbage)
 {
 
 	if (ft_strcmp(command[0], STR_ECHO))
@@ -162,12 +260,41 @@ void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
 	else if (ft_strcmp(command[0], STR_ENV))
 		ft_env(*env);
 	else
-	{
-		ft_execve(command, BIN_PATH);
-	}
+		ft_execve(command, *env, garbage);
 }
 
 void	ft_exec_command(t_mini *shell)
 {
-    ft_check_cmd(shell->tokens->name, &shell->envi, &shell->garbage);
+	t_tok *token;
+	int fd[2];
+	pid_t pid;
+	int status;
+
+	token = shell->tokens;
+	while(token)
+	{
+		if (token->next)
+		{
+			if (pipe(fd) < 0)
+			{
+				perror("pipe");
+				return;
+			}
+			token->std[1] = fd[1];
+			token->next->std[0] = fd[0];
+		}
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		else if (pid == 0)
+		{
+			file_descriptor_handler(token->std[0], token->std[1]);
+//			printf("command = %s std (in, out) = %d %d\n", token->name[0], token->std[0], token->std[1]);
+			ft_do_cmd(token->name, &shell->envi, &shell->garbage);
+		}
+		else
+			waitpid(pid, &status, WUNTRACED);
+		token = token->next;
+	}
+
 }
