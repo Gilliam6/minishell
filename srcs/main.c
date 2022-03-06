@@ -42,6 +42,8 @@ int main(void)
 		shell.input_line = readline("minishell$");
 		signal(SIGINT, &signal_handler);
 		signal(SIGQUIT, SIG_IGN);
+		if (ft_strcmp("exit", shell.input_line))
+			break;
 
 		shell.tokens = 0;
 		//switch_echoctl(1);
