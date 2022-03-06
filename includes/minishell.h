@@ -17,7 +17,7 @@
 //MSG
 # define MLC_ERR	"Malloc failed\n"
 # define QUOT_ERR	"Minishell syntax error: open quotes\n"
-
+# define OPN_FD_ERR	"Open file error\n"
 //CMD
 # define EXIT			1
 //# define ECHO			2
@@ -68,6 +68,9 @@ typedef struct env_list
 typedef struct tokens_list
 {
 	char				**name;
+	int 				type;
+	int 				fd_in;
+	int 				fd_out;
 //	t_cmd 				cmd;
 	struct tokens_list	*next;
 }			t_tok;
@@ -107,6 +110,7 @@ char	**ft_mega_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
+void		redirect_deleter(t_mini *shell);
 
 
 // Tokens creator
