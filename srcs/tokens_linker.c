@@ -52,9 +52,8 @@ t_tok	*create_new_token(char **str, t_garbage **garbage)
 	if (!elem)
 		return (0);
 	elem->name = str;
-	elem->fd_out = -1;
-	elem->fd_in = -1;
-	elem->type = 0;
+	elem->std[0] = 0;
+	elem->std[1] = 1;
 	elem->next = 0;
 	return (elem);
 }

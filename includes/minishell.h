@@ -11,15 +11,16 @@
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
-# include <unistd.h>
 # include "readline.h"
 # include "history.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
 
 //MSG
 # define MLC_ERR	"Malloc failed\n"
 # define QUOT_ERR	"Minishell syntax error: open quotes\n"
-# define OPN_FD_ERR	"Open file error\n"
-# define CMD_DUP_ERR	"Command dup error\n"
+
 //CMD
 # define EXIT			1
 //# define ECHO			2
@@ -36,7 +37,7 @@
 
 //BUILTINS
 #define PATH_MAX        1024
-#define BIN_PATH        "/bin/"
+#define PATH			"PATH"
 #define STR_ECHO        "echo"
 #define STR_CD          "cd"
 #define STR_PWD         "pwd"
@@ -67,12 +68,16 @@ typedef struct env_list
 //	struct commands_line	*next;
 //}				t_cmd;
 
+//typedef struct	s_std
+//{
+//	int	in;
+//	int out; // todo Можно еще err сделать
+//}				t_std;
+
 typedef struct tokens_list
 {
 	char				**name;
-	int 				type;
-	int 				fd_in;
-	int 				fd_out;
+	int					std[2];
 //	t_cmd 				cmd;
 	struct tokens_list	*next;
 }			t_tok;
@@ -112,7 +117,6 @@ char	**ft_mega_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
-void		redirect_deleter(t_mini *shell);
 
 
 // Tokens creator
