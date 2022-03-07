@@ -146,7 +146,8 @@ void ft_execve(char **command, char *bin_path) // todo здесь нужен env
 }
 
 
-void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
+void    ft_check_cmd(char **command, t_env **env, t_garbage
+**garbage)
 {
 
 	if (ft_strcmp(command[0], STR_ECHO))
@@ -169,5 +170,5 @@ void    ft_check_cmd(char **command, t_env **env, t_garbage **garbage)
 
 void	ft_exec_command(t_mini *shell)
 {
-    ft_check_cmd(shell->tokens->name, &shell->envi, &shell->garbage);
+	ft_check_cmd(shell->tokens->name, &shell->envi, &shell->garbage);
 }

@@ -11,6 +11,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <stdio.h>
+# include <unistd.h>
 # include "readline.h"
 # include "history.h"
 
@@ -18,6 +19,7 @@
 # define MLC_ERR	"Malloc failed\n"
 # define QUOT_ERR	"Minishell syntax error: open quotes\n"
 # define OPN_FD_ERR	"Open file error\n"
+# define CMD_DUP_ERR	"Command dup error\n"
 //CMD
 # define EXIT			1
 //# define ECHO			2
