@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void    ft_echo(char **data_command)
+void	ft_echo(char **data_command)
 {
 	char	flag_n;
 	char	flag_space;
@@ -15,7 +15,6 @@ void    ft_echo(char **data_command)
 		{
 			if (flag_space)
 				printf(" ");
-//			ft_putstr_fd()
 			printf("%s", *data_command);
 			flag_space = 1;
 		}
@@ -28,11 +27,11 @@ void    ft_echo(char **data_command)
 
 void	ft_cd(char **data_command) // todo Обработку ~ / хотелось бы сделать в парсере
 {
-	char buf[PATH_MAX];
-	char **cd_path;
-	int i;
-	int len_path;
-	int j;
+	char	buf[PATH_MAX];
+	char	**cd_path;
+	int		i;
+	int		len_path;
+	int		j;
 
 	if (getcwd(buf, PATH_MAX) < 0)
 	{

@@ -13,12 +13,12 @@ void	node_clear(t_env **lst)
 	}
 }
 
-void 	lst_add_back(t_env **env_chain, t_env *new)
+void	lst_add_back(t_env **env_chain, t_env *new)
 {
-	t_env *checkpoint;
+	t_env	*checkpoint;
 
 	if (!new)
-		return;
+		return ;
 	if (*env_chain)
 	{
 		checkpoint = *env_chain;
@@ -33,12 +33,9 @@ void 	lst_add_back(t_env **env_chain, t_env *new)
 
 t_env	*new_node(char *content, t_garbage **garbage)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = (t_env *)save_malloc(sizeof(t_env), garbage);
-//	new->content = (char *)save_malloc(sizeof(char) * ft_strlen(content) + 1,
-//									   garbage);
-//	ft_memcpy(new->content, content, ft_strlen(content) + 1);
 	new->content = content;
 	new->next = 0;
 	return (new);

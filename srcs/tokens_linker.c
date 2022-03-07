@@ -13,19 +13,6 @@ int	tokens_size(t_tok *lst)
 	return (i);
 }
 
-//void	ft_custom_lstclear(t_garbage **lst, void (*del)(void*))
-//{
-//	t_garbage	*tmp;
-//
-//	while ((*lst))
-//	{
-//		tmp = (*lst)->next;
-//		(*del)((*lst)->content);
-//		free(*lst);
-//		*lst = tmp;
-//	}
-//}
-
 void	token_add_back(t_tok **lst, t_tok *new)
 {
 	t_tok	*begin;
@@ -64,5 +51,4 @@ void	token_add(t_tok **tokens, t_garbage **garbage, char **str)
 
 	new = create_new_token(str, garbage);
 	token_add_back(tokens, new);
-//	return (pointer);
 }

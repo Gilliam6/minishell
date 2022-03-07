@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int quotes(char *line, int index)
+int	quotes(char *line, int index)
 {
 	int				i;
 	unsigned char	quot;
@@ -15,15 +15,15 @@ int quotes(char *line, int index)
 			quot = 2;
 		else if (!quot && line[i] == '\'')
 			quot = 1;
-		else if ((quot == 2 && line[i] == '\"') || (quot == 1 && line[i] ==
-		'\''))
+		else if ((quot == 2 && line[i] == '\"') || (quot == 1 && line[i]
+				== '\''))
 			quot = 0;
 		i++;
 	}
 	return (quot);
 }
 
-int quot_checker(char *line, int i)
+int	quot_checker(char *line, int i)
 {
 	if (quotes(line, i))
 		return (ft_strerror(QUOT_ERR, 1));

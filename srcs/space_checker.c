@@ -1,9 +1,9 @@
 #include "../includes/minishell.h"
 
-int calculate_strmem(char *str)
+int	calculate_strmem(char *str)
 {
-	int mem_size;
-	int index;
+	int	mem_size;
+	int	index;
 
 	mem_size = 0;
 	index = 0;
@@ -22,7 +22,7 @@ int calculate_strmem(char *str)
 	return (mem_size);
 }
 
-char *refactor_str(t_mini *shell, int mem_size, t_garbage **garbage)
+char	*refactor_str(t_mini *shell, int mem_size, t_garbage **garbage)
 {
 	char	*final;
 	int		index;
@@ -34,14 +34,14 @@ char *refactor_str(t_mini *shell, int mem_size, t_garbage **garbage)
 	{
 		if (shell->input_line[index] != ' ')
 			final[mem_size++] = shell->input_line[index];
-		else if (shell->input_line[index] == ' ' && shell->input_line[index +
-		1] == '-')
+		else if (shell->input_line[index] == ' ' && shell->input_line[index
+				+ 1] == '-')
 			final[mem_size++] = shell->input_line[index];
-		else if (shell->input_line[index] == ' ' && shell->input_line[index +
-		1] != ' ')
+		else if (shell->input_line[index] == ' ' && shell->input_line[index
+				+ 1] != ' ')
 			final[mem_size++] = shell->input_line[index];
 		else if (shell->input_line[index] == ' ' && quotes(shell->input_line,
-													   index))
+				index))
 			final[mem_size++] = shell->input_line[index];
 		index++;
 	}

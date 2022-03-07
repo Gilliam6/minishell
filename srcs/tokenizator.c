@@ -1,19 +1,18 @@
 #include "../includes/minishell.h"
 
-void	print_tokens(t_tok *tokens)
-{
-	int i;
-
-	while (tokens)
-	{
-		i = 0;
-		while (tokens->name[i])
-			printf("%s\n", tokens->name[i++]);
-		printf("-------------------------\n");
-		tokens = tokens->next;
-	}
-}
-
+//void	print_tokens(t_tok *tokens)
+//{
+//	int	i;
+//
+//	while (tokens)
+//	{
+//		i = 0;
+//		while (tokens->name[i])
+//			printf("%s\n", tokens->name[i++]);
+//		printf("-------------------------\n");
+//		tokens = tokens->next;
+//	}
+//}
 
 void	token_constructor(char **split, t_mini *shell)
 {
@@ -31,11 +30,11 @@ void	token_constructor(char **split, t_mini *shell)
 
 void	tokenizator(t_mini *shell)
 {
-	char **split;
+	char	**split;
 
+	shell.tokens = 0;
 	split = parser(shell);
 	if (split)
 		token_constructor(split, shell);
 	redirect_deleter(shell);
-//	type_recognizer(shell);
 }
