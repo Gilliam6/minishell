@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: rstephan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 14:56:57 by msimon            #+#    #+#             */
-/*   Updated: 2021/08/02 10:27:26 by msimon           ###   ########.fr       */
+/*   Created: 2022/03/08 17:42:15 by rstephan          #+#    #+#             */
+/*   Updated: 2022/03/08 17:42:16 by rstephan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					get_next_line(int fd, char **line);
-int			ft_strcmp(char *s1, char *s2);
+int					ft_strcmp(char *s1, char *s2);
 
 #endif

@@ -28,7 +28,7 @@ HEA = 				${addprefix ${INC_PATH}/,${HEA_NAME}}
 SRC_PATH =			srcs
 SRC_NAME_MAIN =		init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
 					space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c token_recognizer.c signals.c \
-					ft_exec_command.c processing_tokens.c
+					ft_exec_command.c processing_tokens.c expensive_dollar.c ft_exec_addition.c
 SRC_NAME_BONUS =	init_environment.c main.c garbage_collector.c tokenizator.c parser.c quotes_check.c ft_custom_split.c \
 					space_checker.c tokens_linker.c processing_pipes.c processing_dollars.c token_recognizer.c signals.c
 

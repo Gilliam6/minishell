@@ -119,6 +119,9 @@ void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
 void	redirect_deleter(t_mini *shell);
+char	*construct_new_line(int mem_size, t_mini *shell);
+int	copy_arg(t_mini *shell, char *new_line, int i, int *ind);
+t_env	*compare_args(char *str, int len, t_mini *shell);
 
 
 // Tokens creator
@@ -128,6 +131,16 @@ void		print_tokens(t_tok *tokens);
 
 // Exec command
 void        ft_exec_command(t_mini *shell);
+void		ft_echo(char **data_command);
+void		ft_cd(char **data_command);
+void 		ft_pwd();
+void 		ft_export(char **data_command, t_env **env, t_garbage **garbage);
+void		ft_unset(char **data_command, t_env **env);
+void 		ft_env(t_env *env);
+int 		len_list_env(t_env *env);
+char 		**env_convert(t_env *env, t_garbage **garbage);
+char		*ft_cd_add(char **cd_path, char *(*buf)[], int len_path);
+
 
 
 
