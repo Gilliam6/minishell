@@ -39,25 +39,30 @@ void	ft_echo(char **data_command)
 
 void	ft_cd(char **data_command)
 {
-	char	buf[PATH_MAX];
+	char	*buf;
 	char	**cd_path;
 	int		len_path;
 
-	if (getcwd(buf, PATH_MAX) < 0)
+	buf = ft_calloc(1, PATH_MAX);
+	if (getcwd(buf, PATH_MAX) < 0 || !buf)
 	{
 		perror("getcwd");
 		exit(1);
 	}
 	cd_path = ft_split(*data_command, '/');
 	len_path = ft_strlen(buf) - 1;
-	ft_cd_add(cd_path, &(*buf), len_path);
+	buf = ft_cd_add(cd_path, buf, len_path);
 	free(cd_path);
-	if (chdir(buf) < 0)
-		perror("cd");
+	printf("%s\n", buf);
+	printf("%d\n",chdir(buf));
+//	if (chdir(buf) < 0)
+//		perror("cd");
+//	printf("%s/\n", buf);
+
 	exit(0);
 }
 
-char	*ft_cd_add(char **cd_path, char *(*buf)[], int len_path)
+char	*ft_cd_add(char **cd_path, char *buf, int len_path)
 {
 	int	j;
 	int	i;
@@ -69,21 +74,21 @@ char	*ft_cd_add(char **cd_path, char *(*buf)[], int len_path)
 			continue ;
 		else if (ft_strcmp("..", cd_path[i]))
 		{
-			while (*(*buf)[len_path] != '/')
-				*(*buf)[len_path--] = 0;
+			while (buf[len_path] != '/')
+				buf[len_path--] = 0;
 			if (len_path)
-				*(*buf)[len_path--] = 0;
+				buf[len_path--] = 0;
 		}
 		else
 		{
-			*(*buf)[++len_path] = '/';
+			buf[++len_path] = '/';
 			j = 0;
 			while (cd_path[i][j])
-				*(*buf)[++len_path] = cd_path[i][j++];
-			*(*buf)[len_path + 1] = 0;
+				buf[++len_path] = cd_path[i][j++];
+			buf[len_path + 1] = 0;
 		}
 	}
-	return (*(*buf));
+	return (buf);
 }
 
 void	ft_pwd(void)

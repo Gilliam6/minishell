@@ -139,7 +139,7 @@ void		ft_unset(char **data_command, t_env **env);
 void 		ft_env(t_env *env);
 int 		len_list_env(t_env *env);
 char 		**env_convert(t_env *env, t_garbage **garbage);
-char		*ft_cd_add(char **cd_path, char *(*buf)[], int len_path);
+char		*ft_cd_add(char **cd_path, char *buf, int len_path);
 
 
 
