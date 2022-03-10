@@ -12,59 +12,43 @@
 
 #include "../includes/minishell.h"
 
-void	ft_env(t_env *env)
+char	*ft_bin_path(t_garbage **garbage, t_env *env, char *command, char
+*bin_path)
 {
-	while (env)
+	char		**split_path;
+	int			i;
+	int			j;
+	struct stat	f;
+
+	split_path = ft_mega_custom_split(
+			&env->content[ft_strlen(PATH) + 1], ':', garbage);
+	while (*split_path)
 	{
-		printf("%s\n", env->content);
-		env = env->next;
+		i = 0;
+		while (**split_path)
+			bin_path[i++] = *(*split_path)++;
+		bin_path[i++] = '/';
+		j = 0;
+		while (command[j])
+			bin_path[i++] = command[j++];
+		bin_path[i] = 0;
+		if (lstat(bin_path, &f) == 0)
+			return (bin_path);
+		split_path++;
 	}
-	exit(0);
+	return (0);
 }
 
-int	len_list_env(t_env *env)
+char	*find_bin_path(char *command, t_env *env, t_garbage **garbage)
 {
-	int	i;
+	char		*bin_path;
 
-	i = 0;
+	bin_path = save_malloc(1024, garbage);
 	while (env)
 	{
+		if (!ft_strncmp(env->content, PATH, ft_strlen(PATH)))
+			return (ft_bin_path(garbage, env, command, bin_path));
 		env = env->next;
-		i++;
-	}
-	return (i);
-}
-
-char	**env_convert(t_env *env, t_garbage **garbage)
-{
-	int		len;
-	int		i;
-	char	**result_env;
-
-	len = len_list_env(env);
-	result_env = (char **)save_malloc(sizeof(char *) * (len + 1), garbage);
-	result_env[len] = 0;
-	i = 0;
-	while (env)
-	{
-		result_env[i] = env->content;
-		env = env->next;
-		i++;
-	}
-	return (result_env);
-}
-
-int	file_descriptor_handler(int in, int out)
-{
-	if (in != 0)
-	{
-		dup2(in, 0);
-		close(in);
-	}
-	if (out != 1)
-	{
-		dup2(out, 1);
-		close(out);
 	}
 	return (0);
 }

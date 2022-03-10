@@ -12,59 +12,51 @@
 
 #include "../includes/minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_cd(char **data_command)
 {
-	while (env)
+	char	*buf;
+	char	**cd_path;
+	int		len_path;
+
+	buf = ft_calloc(1, PATH_MAX);
+	if (getcwd(buf, PATH_MAX) < 0 || !buf)
 	{
-		printf("%s\n", env->content);
-		env = env->next;
+		perror("getcwd");
+		exit(1);
 	}
-	exit(0);
+	cd_path = ft_split(*data_command, '/');
+	len_path = ft_strlen(buf) - 1;
+	buf = ft_cd_add(cd_path, buf, len_path);
+	free(cd_path);
+	if (chdir(buf) < 0)
+		perror("cd");
+	exit (0);
 }
 
-int	len_list_env(t_env *env)
+char	*ft_cd_add(char **cd_path, char *buf, int len_path)
 {
+	int	j;
 	int	i;
 
-	i = 0;
-	while (env)
+	i = -1;
+	while (cd_path[++i])
 	{
-		env = env->next;
-		i++;
+		if (ft_strcmp(".", cd_path[i]))
+			continue ;
+		else if (ft_strcmp("..", cd_path[i]))
+		{
+			while (buf[len_path] != '/')
+				buf[len_path--] = 0;
+			if (len_path)
+				buf[len_path--] = 0;
+		}
+		else
+		{
+			buf[++len_path] = '/';
+			j = 0;
+			while (cd_path[i][j])
+				buf[++len_path] = cd_path[i][j++];
+		}
 	}
-	return (i);
-}
-
-char	**env_convert(t_env *env, t_garbage **garbage)
-{
-	int		len;
-	int		i;
-	char	**result_env;
-
-	len = len_list_env(env);
-	result_env = (char **)save_malloc(sizeof(char *) * (len + 1), garbage);
-	result_env[len] = 0;
-	i = 0;
-	while (env)
-	{
-		result_env[i] = env->content;
-		env = env->next;
-		i++;
-	}
-	return (result_env);
-}
-
-int	file_descriptor_handler(int in, int out)
-{
-	if (in != 0)
-	{
-		dup2(in, 0);
-		close(in);
-	}
-	if (out != 1)
-	{
-		dup2(out, 1);
-		close(out);
-	}
-	return (0);
+	return (buf);
 }

@@ -12,19 +12,19 @@
 
 #include "../includes/minishell.h"
 
-void ft_env(t_env *env)
+void	ft_env(t_env *env)
 {
 	while (env)
 	{
-		printf("%s\n",env->content);
+		printf("%s\n", env->content);
 		env = env->next;
 	}
-	exit(0);
+	exit (0);
 }
 
-int len_list_env(t_env *env)
+int	len_list_env(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env)
@@ -32,14 +32,14 @@ int len_list_env(t_env *env)
 		env = env->next;
 		i++;
 	}
-	return i;
+	return (i);
 }
 
-char **env_convert(t_env *env, t_garbage **garbage)
+char	**env_convert(t_env *env, t_garbage **garbage)
 {
-	int len;
-	int i;
-	char **result_env;
+	int		len;
+	int		i;
+	char	**result_env;
 
 	len = len_list_env(env);
 	result_env = (char **)save_malloc(sizeof(char *) * (len + 1), garbage);
@@ -51,5 +51,5 @@ char **env_convert(t_env *env, t_garbage **garbage)
 		env = env->next;
 		i++;
 	}
-	return result_env;
+	return (result_env);
 }

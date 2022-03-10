@@ -39,13 +39,13 @@ void	change_token(t_tok **token, int i)
 	}
 	if (ft_strcmp((*token)->name[i], ">>"))
 	{
-		(*token)->std[0] = open((*token)->name[i + 1], O_CREAT | O_WRONLY
+		(*token)->std[1] = open((*token)->name[i + 1], O_CREAT | O_WRONLY
 				| O_APPEND, S_IRWXU);
 		(*token)->type = 2;
 	}
 	if (ft_strcmp((*token)->name[i], "<"))
 	{
-		(*token)->std[1] = open((*token)->name[i + 1], O_CREAT | O_WRONLY
+		(*token)->std[0] = open((*token)->name[i + 1], O_CREAT | O_WRONLY
 				| O_TRUNC, S_IRWXU);
 		(*token)->type = 3;
 	}

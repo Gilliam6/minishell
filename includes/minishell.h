@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec_opt.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rstephan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 17:55:41 by rstephan          #+#    #+#             */
+/*   Updated: 2022/03/08 17:55:46 by rstephan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -36,20 +48,19 @@
 # define RD_OUTPUT_X2	10
 
 //BUILTINS
-#define PATH_MAX        1024
-#define PATH			"PATH"
-#define STR_ECHO        "echo"
-#define STR_CD          "cd"
-#define STR_PWD         "pwd"
-#define STR_EXPORT      "export"
-#define STR_UNSET       "unset"
-#define STR_ENV         "env"
-#define STR_EXIT        "exit"
-
+# define PATH_MAX        1024
+# define PATH			"PATH"
+# define STR_ECHO        "echo"
+# define STR_CD          "cd"
+# define STR_PWD         "pwd"
+# define STR_EXPORT      "export"
+# define STR_UNSET       "unset"
+# define STR_ENV         "env"
+# define STR_EXIT        "exit"
 
 # define MAX_INT		2147483647
 
-typedef struct	pointers
+typedef struct pointers
 {
 	void				*content;
 	struct pointers		*next;
@@ -61,34 +72,20 @@ typedef struct env_list
 	struct env_list	*next;
 }				t_env;
 
-//typedef struct commands_line
-//{
-//	unsigned char			type;
-//	char 					*text;
-//	struct commands_line	*next;
-//}				t_cmd;
-
-//typedef struct	s_std
-//{
-//	int	in;
-//	int out; // todo Можно еще err сделать
-//}				t_std;
-
 typedef struct tokens_list
 {
 	char				**name;
 	int					std[2];
 	int					type;
-//	t_cmd 				cmd;
 	struct tokens_list	*next;
 }			t_tok;
 
 typedef struct s_minishell
 {
 	char			*input_line;
-	char 			*processed_line;
+	char			*processed_line;
 	unsigned char	exit;
-	unsigned char 	stop;
+	unsigned char	stop;
 	t_env			*envi;
 	t_tok			*tokens;
 	t_garbage		*garbage;
@@ -96,10 +93,9 @@ typedef struct s_minishell
 
 // Main
 t_env		*init_environment(char **env, t_garbage **garbage);
-t_env       *new_node(char *content, t_garbage **garbage);
-int 		ft_strerror(char *str, int ret);
+t_env		*new_node(char *content, t_garbage **garbage);
+int			ft_strerror(char *str, int ret);
 int			unexpected_exit(t_garbage **garbage, char *str, int ret);
-
 
 // Malloc abstract || garbage collector
 int			ft_custom_lstsize(t_garbage *lst); // check size of link
@@ -111,18 +107,17 @@ void		*save_malloc(int num_bytes, t_garbage **garbage);
 // Parser
 void		tokenizator(t_mini *shell);
 char		**parser(t_mini *shell);
-int 		quotes(char *line, int i); // Quotes checker
-int 		quot_checker(char *line, int i);
+int			quotes(char *line, int i);
+int			quot_checker(char *line, int i);
 char		**ft_custom_split(char const *s, char c, t_garbage **garbage);
-char	**ft_mega_custom_split(char const *s, char c, t_garbage **garbage);
+char		**ft_mega_custom_split(char const *s, char c, t_garbage **garbage);
 void		space_del(t_mini *shell);
 char		**processing_pipes(t_mini *shell);
 void		processing_dollars(t_mini *shell);
-void	redirect_deleter(t_mini *shell);
-char	*construct_new_line(int mem_size, t_mini *shell);
-int	copy_arg(t_mini *shell, char *new_line, int i, int *ind);
-t_env	*compare_args(char *str, int len, t_mini *shell);
-
+void		redirect_deleter(t_mini *shell);
+char		*construct_new_line(int mem_size, t_mini *shell);
+int			copy_arg(t_mini *shell, char *new_line, int i, int *ind);
+t_env		*compare_args(char *str, int len, t_mini *shell);
 
 // Tokens creator
 void		token_add(t_tok **tokens, t_garbage **garbage, char **str);
@@ -130,24 +125,19 @@ int			tokens_size(t_tok *lst);
 void		print_tokens(t_tok *tokens);
 
 // Exec command
-void        ft_exec_command(t_mini *shell);
+void		ft_exec_command(t_mini *shell);
 void		ft_echo(char **data_command);
 void		ft_cd(char **data_command);
-void 		ft_pwd();
-void 		ft_export(char **data_command, t_env **env, t_garbage **garbage);
+void		ft_pwd(void);
+void		ft_export(char **data_command, t_env **env, t_garbage **garbage);
 void		ft_unset(char **data_command, t_env **env);
-void 		ft_env(t_env *env);
-int 		len_list_env(t_env *env);
-char 		**env_convert(t_env *env, t_garbage **garbage);
+void		ft_env(t_env *env);
+int			len_list_env(t_env *env);
+char		**env_convert(t_env *env, t_garbage **garbage);
 char		*ft_cd_add(char **cd_path, char *buf, int len_path);
-
-
-
-
-
-
-void	set_input_signals(void);
-void	signal_handler(int signo);
-void	signal_handler2(int signo);
-//void rl_replace_line (const char *text, int clear_undo);
+char		*find_bin_path(char *command, t_env *env, t_garbage **garbage);
+int			file_descriptor_handler(int in, int out);
+void		set_input_signals(void);
+void		signal_handler(int signo);
+void		signal_handler2(int signo);
 #endif
